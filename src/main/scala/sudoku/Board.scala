@@ -1,7 +1,7 @@
 package sudoku
 
 import scala.io.Source
-
+import java.io._
 /*
 * Klasa koja predstavlja sudoku tablu
 * */
@@ -37,7 +37,27 @@ class Board {
     cells(row)(col) = cell
   }
 
+  /*
+  * metoda koja ispisuje tabelu u fajl
+  * @param file -> fajl u koji se vrsi upis
+  */
+  def outputToFile(file: String): Unit = {
+    //dodaje se putanja na ime fajl da bi se kreirao u output folderu
+    val fileFullPath = Board.outputDir + file
+    // PrintWriter iz Java
+    val pw = new PrintWriter(new File(fileFullPath ))
 
+    for (r <- cells){
+      for(cell <- r){
+        pw.write(cell.value)
+      }
+      pw.write("\n")
+    }
+    pw.close
+  }
+
+
+  //nadjacana toString metoda
   override def toString: String = {
     val sb = new StringBuilder("")
     for(r <- cells){
@@ -53,6 +73,12 @@ class Board {
 
 
 object Board {
+
+  //direktorijum ulaznih fajlova
+  val inputDir = "src/main/scala/input/"
+
+  //direktorijum izlaznih fajlova
+  val outputDir = "src/main/scala/output/"
 
   //dimenzija jednog kvadrata
   val squareDimension = 3
@@ -84,8 +110,9 @@ object Board {
   //kreira novu tabelu na osnovu stringa koji predstavlja ime fajla
   //@param file -> ime fajla iz kog se ucitava tabela
   def apply(file: String): Board = {
-
-    val arr = parseInputFile(file)
+    //dodaje se putanja na ime fajla da bi se dohvatio u input folderu
+    val fileFullPath = inputDir + file
+    val arr = parseInputFile(fileFullPath)
     val board = new Board
 
     var row = 0
@@ -95,7 +122,7 @@ object Board {
       for(chr <- r){
         //TODO: Dodati provjere da li je originalna celija, da li je mjesto gdje je olovka postavljena i ostalo
         //TODO: Provjeriti kako napisati update metodu za Board klasu
-        board(row)(col) = new Cell(chr,(row,col),true)
+        board.cells(row)(col) = new Cell(chr,(row,col),true)
         //povecati kolonu nakon svakog upisa
         col += 1
       }
