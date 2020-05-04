@@ -2,6 +2,8 @@ package sudoku
 
 import scala.io.Source
 import java.io._
+import io.AnsiColor._
+
 /*
 * Klasa koja predstavlja sudoku tablu
 * */
@@ -13,6 +15,9 @@ class Board {
   //celije u tabeli, organizovane kao niz nizova
   //ofDim kreira multidimenzionalni niz zadatih dimenzija sa praznim poljima
   val cells: Array[Array[Cell]] = Array.ofDim[Cell](Board.boardDimension,Board.boardDimension)
+
+  //promjenljiva koja oznacava polozaj olovke (row,col)
+  var pencilCell: Cell = null
 
   /*
   * apply metoda da bi se celije mogle dohvatati sa Board(r,c)
@@ -36,6 +41,34 @@ class Board {
 
     cells(row)(col) = cell
   }
+
+
+  /*
+  * metoda za pomjeranje olovke shodno korisnikovom unosu
+  * @param moveOption -> izabrani potez korisnika iz skupa ('U','D','L','R')
+  */
+  def movePencil(moveOption: Char): Unit = {
+
+    require(pencilCell != null, "Tabela nije podesena!")
+
+    val pencilRow = pencilCell.row
+    val pencilCol = pencilCell.col
+
+    var pencilChanged: Boolean = true
+
+    moveOption match {
+      case 'U' if pencilRow > 0 => pencilCell = cells(pencilRow-1)(pencilCol)
+      case 'D' if pencilRow < Board.boardDimension => pencilCell = cells(pencilRow + 1)(pencilCol)
+      case 'L' if pencilCol > 0 => pencilCell = cells(pencilRow)(pencilCol-1)
+      case 'R' if pencilCol < Board.boardDimension => pencilCell = cells(pencilRow)(pencilCol+1)
+      case _ => pencilChanged = false; println("Nevalidan potez pomjereanja olovke! \n")
+    }
+
+
+
+  }
+
+
 
   /*
   * metoda koja ispisuje tabelu u fajl
@@ -62,10 +95,20 @@ class Board {
     val sb = new StringBuilder("")
     for(r <- cells){
       for(cell <- r){
-        sb.append(" ").append(cell).append(" ")
+        //ako je pencil pozicija, ispisati reversed
+        if(cell == pencilCell){
+          sb.append(" ").append(s"${REVERSED}${BOLD}").append(cell).append(s"${RESET}").append(" ")
+        }else{
+          sb.append(" ").append(cell).append(" ")
+        }
       }
       sb.append("\n").append("\n")
     }
+    sb.append("Polozaj olovke: ("+pencilCell.row + ","+pencilCell.col+")")
+    sb.append("\n").append("\n")
+    //ako olovka pokazuje validan broj, ispisati ga
+    if(pencilCell.isValid) sb.append("Vrijednost pokazana olovkom: ["+pencilCell.value+"]")
+
     //vratiti string iz StringBuildera
     sb.toString
   }
@@ -120,9 +163,13 @@ object Board {
 
     for(r <- arr){
       for(chr <- r){
-        //TODO: Dodati provjere da li je originalna celija, da li je mjesto gdje je olovka postavljena i ostalo
         //TODO: Provjeriti kako napisati update metodu za Board klasu
-        board.cells(row)(col) = new Cell(chr,(row,col),true)
+        board.cells(row)(col) = chr match {
+          case '-' => new Cell(chr,(row,col),false)
+          case 'P' => board.pencilCell = new Cell('-',(row,col),false); board.pencilCell
+          case _ => new Cell(chr,(row,col),true)
+        }
+
         //povecati kolonu nakon svakog upisa
         col += 1
       }

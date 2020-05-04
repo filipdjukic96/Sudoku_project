@@ -11,11 +11,15 @@ package sudoku
 
 class Cell(var value: Char, val loc: (Int,Int), val original: Boolean ){
 
+  require( loc._1 >=0 && loc._1 < Board.boardDimension, "Invalid row number!" )
+  require( loc._2 >=0 && loc._2 < Board.boardDimension, "Invalid column number!" )
+
   //red u kom se celija nalazi
   val row = loc._1
   //kolona u kojoj se celija nalazi
   val col = loc._2
 
+  def isValid: Boolean = value != 'P' && value != '-'
 
   //dodati squareNumber parametar -> oznacava u kom je kvadratu celija
 

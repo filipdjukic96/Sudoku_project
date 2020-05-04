@@ -6,6 +6,7 @@ import sudoku.Board
 
 import scala.io.StdIn
 
+
 object Menu {
   val stdin = StdIn //za citanje sa standardnog ulaza
   var exit: Boolean = false //flag koji oznacava kada je kraj aplikacije
@@ -54,7 +55,7 @@ object Menu {
       case 0 => exit = true
       case 1 => pickFileForInput
       case 2 => pickAvailableTabels
-      case 3 => println("Stavka 3")//TODO
+      case 3 => movePencil
       case 4 => println("Stavka 4")//TODO
       case 5 => println("Stavka 5")//TODO
       case 6 => println("Stavka 6")//TODO
@@ -79,14 +80,15 @@ object Menu {
   //-------------------------------------------
 
   //STAVKA 1
-
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /*
   * pravljenje tabele od fajl
   * @param file -> fajl iz kog se cita tabela
   * */
   def createBoard(file: String) = {
     board = Board(file)
-    println(board)//TODO: Ostavljeno zbog debagovanja, izbaciti kasnije
+    println(board)//TODO: Ostavljeno zbog debagovanja, izbaciti kasnije, mozda ostaviti???
+
   }
 
   //za ucitavanje sudoku tabele iz fajla
@@ -97,7 +99,7 @@ object Menu {
   }
 
   //STAVKA 2
-
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /*
   * dohvata listu fajlova iz direktorijuma
   * @param dir -> direktorijum iz kog se ucitava
@@ -117,7 +119,7 @@ object Menu {
   * */
   def printListOfFiles(lst: List[File]): Unit = {
     for (e <- lst.zipWithIndex){
-      println(e._2 + ". "+ e._1.getName)
+      println(e._2 + 1 + ". "+ e._1.getName)
     }
   }
 
@@ -129,9 +131,38 @@ object Menu {
     printListOfFiles(lstFiles)
     val choice = getInput
     //provjera
-    require(choice >= 0 && choice < lstFiles.length, "Izabran nepostojeci fajl!")
+    require(choice >= 1 && choice < lstFiles.length + 1, "Izabran nepostojeci fajl!")
     //kreiranje tabele na osnovu izabranog fajla
-    createBoard(lstFiles(choice).getName)
+    createBoard(lstFiles(choice - 1).getName)
+  }
+
+  //STAVKA 3
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //funkcija koja ispisuje opcije za pomjeranje olovke
+  def printMovePencilOptions: Unit = {
+    println("1. Dole")
+    println("2. Gore")
+    println("3. Lijevo")
+    println("4. Desno")
+  }
+
+  //funkcija koja vrsti pomjeranje olovke
+  def movePencil: Unit = {
+    //tabela mora biti ucitana
+    require(board != null, "Tabela nije ucitana!")
+    //izlistavanje opcija pomjeranja
+    printMovePencilOptions
+    val choice: Int = getInput
+
+    choice match {
+      case 1 => board.movePencil('D')//down
+      case 2 => board.movePencil('U')//up
+      case 3 => board.movePencil('L')//left
+      case 4 => board.movePencil('R')//right
+      case _ => println("Stavka pogresna")
+    }
+    println(board)
   }
 
 }
