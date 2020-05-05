@@ -54,19 +54,32 @@ class Board {
     val pencilRow = pencilCell.row
     val pencilCol = pencilCell.col
 
-    var pencilChanged: Boolean = true
 
     moveOption match {
       case 'U' if pencilRow > 0 => pencilCell = cells(pencilRow-1)(pencilCol)
       case 'D' if pencilRow < Board.boardDimension => pencilCell = cells(pencilRow + 1)(pencilCol)
       case 'L' if pencilCol > 0 => pencilCell = cells(pencilRow)(pencilCol-1)
       case 'R' if pencilCol < Board.boardDimension => pencilCell = cells(pencilRow)(pencilCol+1)
-      case _ => pencilChanged = false; println("Nevalidan potez pomjereanja olovke! \n")
+      case _ => println("Nevalidan potez pomjereanja olovke! \n")
     }
 
+  }
 
+
+  /*
+  * metoda za upisivanje cifre na pokazivac olovke
+  * @param digit -> cifra koja se upisuje
+  * */
+  def writeDigit(digit: Int): Unit = {
+    //provjera
+    require(digit > 0 && digit < 10, "Nevalida cifra za sudoku!")
+    pencilCell.original match {
+      case true => println("Pokusano mijenjanje originalne celije!")
+      case false => pencilCell.value = digit.toString.charAt(0) //mora konverzija iz int u string prvo, pa onda karakter na poz 0
+    }
 
   }
+
 
 
 
@@ -95,12 +108,21 @@ class Board {
     val sb = new StringBuilder("")
     for(r <- cells){
       for(cell <- r){
-        //ako je pencil pozicija, ispisati reversed
+
+        //ako je pencil pozicija, ispisati crvenom bojom
         if(cell == pencilCell){
+          if(cell.original){ //ako je originalna celija, popuniti je crvenom bojom
+            sb.append(" ").append(s"${REVERSED}${RED}${BOLD}").append(cell).append(s"${RESET}").append(" ")
+          }else{ //u suprotnom samo ispisati crvenom bojom
+            sb.append(" ").append(s"${RED}${BOLD}").append(cell).append(s"${RESET}").append(" ")
+          }
+        }else if(cell.original){
+          //ako je nepromjenljiva celija, ispisati reversed
           sb.append(" ").append(s"${REVERSED}${BOLD}").append(cell).append(s"${RESET}").append(" ")
         }else{
           sb.append(" ").append(cell).append(" ")
         }
+
       }
       sb.append("\n").append("\n")
     }

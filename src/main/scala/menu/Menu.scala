@@ -56,7 +56,7 @@ object Menu {
       case 1 => pickFileForInput
       case 2 => pickAvailableTabels
       case 3 => movePencil
-      case 4 => println("Stavka 4")//TODO
+      case 4 => writeDigit
       case 5 => println("Stavka 5")//TODO
       case 6 => println("Stavka 6")//TODO
       case _ => println("Stavka pogresna")
@@ -165,4 +165,16 @@ object Menu {
     println(board)
   }
 
+
+
+  //STAVKA 3
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  def writeDigit: Unit = {
+    require(board != null, "Tabela nije ucitana!")
+    print("Cifra: ")
+    val choice: Int = getInput
+    board.writeDigit(choice)
+    println(board) //TODO: Ostaviti za sada, mozda skloniti kasnije
+  }
 }
