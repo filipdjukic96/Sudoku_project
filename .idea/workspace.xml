@@ -33,6 +33,13 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Package Object" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -91,6 +98,14 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="499" y="167" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1588802317683">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="167" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1588802317683" />
+    <state x="574" y="105" key="#com.intellij.ide.util.MemberChooser" timestamp="1588801233793">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="574" y="105" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1588801233793" />
     <state x="492" y="101" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1588515294950">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -99,22 +114,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="449" y="148" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1536.824@0.0.1536.824" timestamp="1588624964890" />
-    <state width="1493" height="391" key="GridCell.Tab.0.bottom" timestamp="1588665446915">
+    <state width="1493" height="247" key="GridCell.Tab.0.bottom" timestamp="1588805573163">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="391" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588665446915" />
-    <state width="1493" height="391" key="GridCell.Tab.0.center" timestamp="1588665446915">
+    <state width="1493" height="247" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588805573163" />
+    <state width="1493" height="247" key="GridCell.Tab.0.center" timestamp="1588805573163">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="391" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588665446915" />
-    <state width="1493" height="391" key="GridCell.Tab.0.left" timestamp="1588665446915">
+    <state width="1493" height="247" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588805573163" />
+    <state width="1493" height="247" key="GridCell.Tab.0.left" timestamp="1588805573163">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="391" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588665446915" />
-    <state width="1493" height="391" key="GridCell.Tab.0.right" timestamp="1588665446915">
+    <state width="1493" height="247" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588805573163" />
+    <state width="1493" height="247" key="GridCell.Tab.0.right" timestamp="1588805573163">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="391" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588665446915" />
+    <state width="1493" height="247" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588805573163" />
     <state width="1493" height="252" key="GridCell.Tab.1.bottom" timestamp="1588523984694">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -139,6 +154,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="337" y="141" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1536.824@0.0.1536.824" timestamp="1588627055670" />
+    <state x="209" y="95" key="new project wizard" timestamp="1588793386770">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="209" y="95" key="new project wizard/0.0.1536.824@0.0.1536.824" timestamp="1588793386770" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1588519302635">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
