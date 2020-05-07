@@ -1,64 +1,98 @@
 package gui
 
+import java.io.File
+
+import scala.swing.event.{KeyTyped, MouseClicked}
 import swing._
 
 
 /*
-* klasa koja predstavlja glavni okvir aplikacije
+* class representing the main frame of the app
 *
 * */
 object SudokuFrame extends MainFrame {
 
   title = "Sudoku"
 
-  //gridpanel koji sadrzi sve ostale panele
+  //gridpanel which contains all other panels
   val framePanel: BoxPanel = new BoxPanel(Orientation.Vertical)
 
-  //sudoku tabela
+  //sudoku table
   val sudokuGrid: SudokuGrid = new SudokuGrid
 
-  //meni bar
+  //menu bar
   val bar: MenuBar = new MenuBar
   bar.preferredSize = new Dimension(600,20)
 
-  //meni osnovnih opcija
+  //basic options menu
   val basicMenu: Menu = new Menu("Osnovne opcije")
 
-  //meni naprednih opcija
-  //TODO: Odraditi napredni meni
+  //advanced options menu
+  //TODO: Add advanced manu
   //val advancedMenu: Menu = new Menu("Napredne opcije")
 
-  //napravi basic meni
+  //builds the basic menu
   buildBasicMenu
 
-  //TODO: Dodati poziv za advanced menu build
+  //TODO: Add advanced menu method call
 
 
 
+  //method which builds the basic menu
   def buildBasicMenu: Unit = {
 
     bar.contents += basicMenu
 
-    //stavke osnovnog menija
-    val importFile: MenuItem = new MenuItem("Ucitaj iz fajla")
-    val chooseTable: MenuItem = new MenuItem("Izaberi iz ponudjenih tabela")
-    val chooseSequence: MenuItem = new MenuItem("Izaberi sekvencu poteza iz fajl")
+    //menu contents
+    //while creating menu contents listeners (actions) are created
+    val importFile: MenuItem = new MenuItem(new Action("Ucitaj iz fajla"){
+      def apply: Unit = {
+        val file: File = new File(SudokuGrid.inputDir)
+        val fileChooser: FileChooser = new FileChooser(file)
+        //ako je kliknuto open, a ne cancel
+        if (fileChooser.showOpenDialog(null) == FileChooser.Result.Approve){
+          sudokuGrid.importFromFile(fileChooser.selectedFile.getName)
+        }
+
+      }
+    })
+
+    val chooseTable: MenuItem = new MenuItem(new Action("Izaberi iz ponudjenih tabela"){
+      def apply: Unit = {
+        val file: File = new File(SudokuGrid.inputDir)
+        val fileChooser: FileChooser = new FileChooser(file)
+        //ako je kliknuto open, a ne cancel
+        if (fileChooser.showOpenDialog(null) == FileChooser.Result.Approve){
+          sudokuGrid.importFromFile(fileChooser.selectedFile.getName)
+        }
+      }
+    })
+    //TODO: Add listeners to other menu items
+    val chooseSequence: MenuItem = new MenuItem(new Action("Izaberi sekvencu poteza iz fajla"){
+      def apply: Unit = {
+        val file: File = new File(SudokuGrid.inputDirMoves)
+        val fileChooser: FileChooser = new FileChooser(file)
+        //ako je kliknuto open, a ne cancel
+        if (fileChooser.showOpenDialog(null) == FileChooser.Result.Approve){
+          sudokuGrid.importMovesFromFile(fileChooser.selectedFile.getName)
+        }
+      }
+    })
     val checkSolution: MenuItem = new MenuItem("Provjeri rjesenje igre")
 
-    //dodavanje stavki
+    //add submenus
     basicMenu.contents += importFile
     basicMenu.contents += chooseTable
     basicMenu.contents += chooseSequence
     basicMenu.contents += checkSolution
 
-    //TODO: Dodati listener-e za menije
   }
 
 
 
-  //dodati u framePanel menije i gridPanel
+  //add menus and gridPanel into the framePanel
   framePanel.contents += bar
-  //TODO: Dodati napredni meni
+  //TODO: Add the advanced menu
   //framePanel.contents += advancedMenu
   framePanel.contents += sudokuGrid
 
@@ -67,6 +101,8 @@ object SudokuFrame extends MainFrame {
 
 
 
-  //na kraju, postaviti visible na true
+  //set visibility to true
   visible = true
+
+
 }

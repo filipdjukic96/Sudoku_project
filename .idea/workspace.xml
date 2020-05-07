@@ -98,10 +98,14 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="499" y="167" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1588802317683">
+    <state x="499" y="167" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1588882214402">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="499" y="167" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1588802317683" />
+    <state x="499" y="167" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1588882214402" />
+    <state x="532" y="214" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588891089560">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="532" y="214" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1588891089560" />
     <state x="574" y="105" key="#com.intellij.ide.util.MemberChooser" timestamp="1588801233793">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -114,38 +118,42 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="449" y="148" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1536.824@0.0.1536.824" timestamp="1588624964890" />
-    <state width="1493" height="247" key="GridCell.Tab.0.bottom" timestamp="1588805573163">
+    <state x="992" y="120" key="#xdebugger.evaluate" timestamp="1588887429140">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="247" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588805573163" />
-    <state width="1493" height="247" key="GridCell.Tab.0.center" timestamp="1588805573163">
+    <state x="992" y="120" key="#xdebugger.evaluate/0.0.1536.824@0.0.1536.824" timestamp="1588887429140" />
+    <state width="1493" height="252" key="GridCell.Tab.0.bottom" timestamp="1588892229573">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="247" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588805573163" />
-    <state width="1493" height="247" key="GridCell.Tab.0.left" timestamp="1588805573163">
+    <state width="1493" height="252" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588892229573" />
+    <state width="1493" height="252" key="GridCell.Tab.0.center" timestamp="1588892229573">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="247" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588805573163" />
-    <state width="1493" height="247" key="GridCell.Tab.0.right" timestamp="1588805573163">
+    <state width="1493" height="252" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588892229573" />
+    <state width="1493" height="252" key="GridCell.Tab.0.left" timestamp="1588892229573">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="247" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588805573163" />
-    <state width="1493" height="252" key="GridCell.Tab.1.bottom" timestamp="1588523984694">
+    <state width="1493" height="252" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588892229573" />
+    <state width="1493" height="252" key="GridCell.Tab.0.right" timestamp="1588892229573">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="252" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588523984694" />
-    <state width="1493" height="252" key="GridCell.Tab.1.center" timestamp="1588523984694">
+    <state width="1493" height="252" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588892229573" />
+    <state width="1493" height="252" key="GridCell.Tab.1.bottom" timestamp="1588892229573">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="252" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1588523984694" />
-    <state width="1493" height="252" key="GridCell.Tab.1.left" timestamp="1588523984694">
+    <state width="1493" height="252" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588892229573" />
+    <state width="1493" height="252" key="GridCell.Tab.1.center" timestamp="1588892229573">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="252" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1588523984694" />
-    <state width="1493" height="252" key="GridCell.Tab.1.right" timestamp="1588523984694">
+    <state width="1493" height="252" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1588892229573" />
+    <state width="1493" height="252" key="GridCell.Tab.1.left" timestamp="1588892229573">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="252" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1588523984694" />
+    <state width="1493" height="252" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1588892229573" />
+    <state width="1493" height="252" key="GridCell.Tab.1.right" timestamp="1588892229573">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="252" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1588892229573" />
     <state x="424" y="48" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588518433832">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -170,6 +178,16 @@
           <url>file://$PROJECT_DIR$/src/main/scala/sudoku/Board.scala</url>
           <line>35</line>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/main/scala/gui/SudokuGrid.scala</url>
+          <line>181</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/main/scala/gui/SudokuGrid.scala</url>
+          <line>164</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

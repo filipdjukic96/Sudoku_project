@@ -1,8 +1,7 @@
 import gui.{SudokuFrame, SudokuGrid}
 import menu.Menu
 import sudoku.Board
-//glavna funkcija
-
+//MAIN
 
 object Sudoku extends App{
   //putanja pocinje gdje i projekat
