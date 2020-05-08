@@ -102,6 +102,7 @@ class SudokuGrid extends GridPanel(1,1) {
 
   //set pen text field
   penField = grid(0)(0)
+  penField.background = Color.YELLOW
 
 
 
@@ -114,7 +115,7 @@ class SudokuGrid extends GridPanel(1,1) {
 
   //method which parses a file containing the sudoku board
   //@param file -> name of the file
-  def parseInputFile(file: String): Array[Array[Char]] = {
+  private def parseInputFile(file: String): Array[Array[Char]] = {
     //input all lines from the file
     val lines:Array[String] = Source.fromFile(file).getLines.toArray
     //every line which is a string transform to an array of characters
@@ -140,7 +141,7 @@ class SudokuGrid extends GridPanel(1,1) {
 
         //set textfield text, and background/editable if needed
         textField.text = chr match {
-          case SudokuGrid.emptyChar => ""
+          case SudokuGrid.emptyChar =>textField.background = Color.WHITE; ""
           case SudokuGrid.penChar => penField = textField; textField.background = Color.YELLOW;textField.requestFocus;""
           case _ => textField.background = Color.LIGHT_GRAY; textField.editable = false;chr.toString
         }
@@ -158,6 +159,7 @@ class SudokuGrid extends GridPanel(1,1) {
       row += 1
       col = 0
     }
+
   }
 
   def importMovesFromFile(file: String): Unit = {
@@ -178,22 +180,20 @@ class SudokuGrid extends GridPanel(1,1) {
 
 
   //method that writes a digit into the specified text field
-  def writeDigit(c: Char, field: TextField): Unit = {
-    println("write digit" + c.toString)
+  private def writeDigit(c: Char, field: TextField): Unit = {
+
     val cell = gridMap(field)
     if(cell.original == true){
-      //TODO: if its and original, call a pop-up window
       Dialog.showMessage(null, "Nedozvoljeno mijenjanje originalnog polja!", title = "Nedozvoljen unos")
     }else{
       cell.value = c
       field.text = c.toString
     }
-    println("polje: "+field.text)
   }
 
 
   //method that resets the text field's background
-  def resetFieldBackground(field: TextField): Unit = {
+  private def resetFieldBackground(field: TextField): Unit = {
     val cell = gridMap(field)
     cell.original match {
       case true => field.background = Color.LIGHT_GRAY
@@ -202,7 +202,7 @@ class SudokuGrid extends GridPanel(1,1) {
   }
 
   //method that colors the field's background according to its original flag
-  def colorFieldPenBackground(field: TextField): Unit = {
+  private def colorFieldPenBackground(field: TextField): Unit = {
     val cell = gridMap(field)
     cell.original match {
       case true => field.background = Color.ORANGE
@@ -211,7 +211,7 @@ class SudokuGrid extends GridPanel(1,1) {
   }
 
   //method for moving the pencil
-  def  movePen(key: Value, field: TextField) = {
+  private def  movePen(key: Value, field: TextField) = {
 
       val cell = gridMap(field)
       key match {
@@ -249,6 +249,99 @@ class SudokuGrid extends GridPanel(1,1) {
           }
       }
   }
+
+
+  //method which returns a row
+  //@param row -> index of the row
+  private def row(row: Int): Array[Int] = {
+    //take the row, apply map function so every field returns its digit (or 0 if it's empty)
+    grid(row).map(field => if(!field.text.isEmpty) field.text.toInt else 0)
+  }
+
+  //method which returns a column
+  //@param col -> index of the column
+  private def col(col: Int): Array[Int] = {
+    grid.map(arrFlds => if (!arrFlds(col).text.isEmpty) arrFlds(col).text.toInt else 0)
+  }
+
+  //method which returns a square within the sudoku table
+  //@param square -> index of the square (squares are indexed from left to right, starting with 0, ending with 8)
+  private def square(square: Int): Array[Int] = {
+    //take groups of 3 rows from the matrix
+    val rowBlocks = grid.grouped(SudokuGrid.squareDimension).toArray
+
+    val horizontalGroup: Int = square / SudokuGrid.squareDimension
+    val verticalGroup: Int = square % SudokuGrid.squareDimension
+
+    val arrMatrices = rowBlocks(horizontalGroup).map(row => row.grouped(SudokuGrid.squareDimension).toArray)
+
+    arrMatrices.map(matrix => matrix(verticalGroup)).flatten.map(textField => if(!textField.text.isEmpty) textField.text.toInt else 0)
+  }
+
+
+  //method which checks whether the row/col/square is valid
+  //according to sudoku rules
+  //@ param arr -> array which contains the elements of a row/col/square
+  private def isValid(arr: Array[Int]): Boolean = {
+    //for each number from 1 to 9 check whether it is in the array
+    (1 to 9).forall(x => arr.contains(x))
+  }
+
+  //method which checks the solution of the sudoku
+  private def isSudokuSolved: Boolean = {
+    //forall -> takes a function p as parameter, returns true if p(x) is true for every x in the collection
+    //return true if every row, col and square is valid
+    (0 to 8).forall( x => isValid(row(x)) && isValid(col(x)) && isValid(square(x)))
+  }
+
+
+  //method which checks the current sudoku solution and notifies the user
+  def checkSolution: Unit = {
+    isSudokuSolved match {
+      case true => Dialog.showMessage(null, "Rjesenje sudoku igre je ispravno, igra je gotova!", title = "Rjesenje ispravno"); clearAll
+      case false => Dialog.showMessage(null, "Rjesenje sudoku igre je neispravno!", title = "Rjesenje neispravno")
+    }
+  }
+
+  //method which resets the board
+  private def clearAll: Unit = {
+    for(arr <- grid)
+      for(field <- arr){
+        val cell: Cell = gridMap(field)
+
+        field.text = ""
+        field.background = Color.WHITE
+        cell.original = false
+        cell.value = '-'
+      }
+    penField = grid(0)(0)
+    penField.background = Color.YELLOW
+    penField.requestFocus
+  }
+
+
+  /*TODO: Iskoristiti ovu metodu za upis tabele u fajl
+  *
+  *   /*
+  * metoda koja ispisuje tabelu u fajl
+  * @param file -> fajl u koji se vrsi upis
+  */
+  def outputToFile(file: String): Unit = {
+    //dodaje se putanja na ime fajl da bi se kreirao u output folderu
+    val fileFullPath = Board.outputDir + file
+    // PrintWriter iz Java
+    val pw = new PrintWriter(new File(fileFullPath ))
+
+    for (r <- cells){
+      for(cell <- r){
+        pw.write(cell.value)
+      }
+      pw.write("\n")
+    }
+    pw.close
+  }
+
+  * */
 
 }
 

@@ -78,7 +78,11 @@ object SudokuFrame extends MainFrame {
         }
       }
     })
-    val checkSolution: MenuItem = new MenuItem("Provjeri rjesenje igre")
+    val checkSolution: MenuItem = new MenuItem(new Action("Provjeri rjesenje igre"){
+      def apply: Unit = {
+        sudokuGrid.checkSolution
+      }
+    })
 
     //add submenus
     basicMenu.contents += importFile
