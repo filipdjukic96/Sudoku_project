@@ -1,9 +1,9 @@
 package gui
 
 import java.awt.Color
+import java.io.{File, PrintWriter}
 
 import scala.collection.mutable.Map
-
 import scala.io.Source
 import swing._
 import javax.swing._
@@ -36,6 +36,12 @@ class SudokuGrid extends GridPanel(1,1) {
   val squarePanels: Array[Array[GridPanel]] = Array.ofDim[GridPanel](SudokuGrid.squareDimension,SudokuGrid.squareDimension)
 
 
+  //flag which determines whether the table is in solve or edit mode
+  //solve mode means a table is read from a file, it can only be solved (original fields immutable)
+  //edit mode means a table is read from a file, it can freely be edited (no immutable fields)
+  var editMode: Boolean = false
+
+
   //text fields creation
   for(x <- 0 until SudokuGrid.boardDimension)
     for(y <- 0 until SudokuGrid.boardDimension){
@@ -52,10 +58,12 @@ class SudokuGrid extends GridPanel(1,1) {
       field.preferredSize = SudokuGrid.fieldSize
       field.horizontalAlignment = Alignment.Center
 
-      //TODO: add key listener
+      //TODO: add key listener for backspace (removal of char)
       field.listenTo(field.keys)
+      field.listenTo(field.mouse.clicks)
       field.reactions += {
-
+        case e: MouseClicked => penField.requestFocus;e.consume//TODO: Check bcs it sometimes doesn't work
+        case KeyPressed(_,Key.BackSpace,_,_) if (editMode) => clearDigit(field)
         case e: KeyTyped if (!e.char.isDigit) => e.consume //only digits are allowed, so consume is called
         case e: KeyTyped if (e.char.isDigit) => writeDigit(e.char,field); e.consume//e.consume because of double digits
         case KeyPressed(_,key,_,_) =>
@@ -141,15 +149,24 @@ class SudokuGrid extends GridPanel(1,1) {
 
         //set textfield text, and background/editable if needed
         textField.text = chr match {
-          case SudokuGrid.emptyChar =>textField.background = Color.WHITE; ""
+          case SudokuGrid.emptyChar => textField.background = Color.WHITE; ""
           case SudokuGrid.penChar => penField = textField; textField.background = Color.YELLOW;textField.requestFocus;""
-          case _ => textField.background = Color.LIGHT_GRAY; textField.editable = false;chr.toString
+          case x if (x.isDigit)  =>
+            if (editMode == false){//if not editable, denote original field with a light gray background
+              textField.background = Color.LIGHT_GRAY
+              textField.editable = false
+              chr.toString
+            } else {
+              textField.background = Color.WHITE
+              chr.toString
+            }
+
         }
 
         //set cell value and original flag
         cell.value = chr match {
           case SudokuGrid.emptyChar | SudokuGrid.penChar => cell.original = false; '-'
-          case _ => cell.original = true; chr
+          case x if (x.isDigit) => cell.original = !editMode; chr
         }
 
         //inc col
@@ -178,10 +195,15 @@ class SudokuGrid extends GridPanel(1,1) {
     }
   }
 
+  //method which erases the value from a field
+  private def clearDigit(field: TextField): Unit = {
+    val cell: Cell = gridMap(field)
+    cell.value = '-'
+    field.text = ""
+  }
 
   //method that writes a digit into the specified text field
   private def writeDigit(c: Char, field: TextField): Unit = {
-
     val cell = gridMap(field)
     if(cell.original == true){
       Dialog.showMessage(null, "Nedozvoljeno mijenjanje originalnog polja!", title = "Nedozvoljen unos")
@@ -309,10 +331,7 @@ class SudokuGrid extends GridPanel(1,1) {
       for(field <- arr){
         val cell: Cell = gridMap(field)
 
-        field.text = ""
-        field.background = Color.WHITE
-        cell.original = false
-        cell.value = '-'
+        clearField(field)
       }
     penField = grid(0)(0)
     penField.background = Color.YELLOW
@@ -320,28 +339,98 @@ class SudokuGrid extends GridPanel(1,1) {
   }
 
 
-  /*TODO: Iskoristiti ovu metodu za upis tabele u fajl
-  *
-  *   /*
-  * metoda koja ispisuje tabelu u fajl
+  //TODO: CHECK HOW THIS METHOD WOULD BE IMPLEMENTED
+  //method which checks if the current sudoku board is solvable
+  def isSolvable: Boolean = {
+      return true
+  }
+
+  //TODO: Use this method to write to file
+  /**
+  * method which outputs the sudoku board into a file
   * @param file -> fajl u koji se vrsi upis
   */
   def outputToFile(file: String): Unit = {
-    //dodaje se putanja na ime fajl da bi se kreirao u output folderu
-    val fileFullPath = Board.outputDir + file
-    // PrintWriter iz Java
+    //adding output directory path to file
+    val fileFullPath = SudokuGrid.outputDir + file
+    // PrintWriter from Java
     val pw = new PrintWriter(new File(fileFullPath ))
 
-    for (r <- cells){
-      for(cell <- r){
-        pw.write(cell.value)
+    for (row <- grid){
+      for(field <- row){
+        val cell = gridMap(field)
+
+        if(field == penField){
+          pw.write('P')
+        }else{
+          pw.write(cell.value)
+        }
+
       }
       pw.write("\n")
     }
     pw.close
+    Dialog.showMessage(null, "Sudoku tabela uspjesno sacuvana!", title = "Tabela sacuvana")
   }
 
-  * */
+  //method which maps a function to all fields in the same row of a given field
+  //excluding the given field
+  //@param field -> field selected by the pen
+  //@param f -> function applied to a field
+  private def mapToRow(field: TextField)(f: TextField => Unit): Unit = {
+      //extract the corresponding cell
+    val cell: Cell = gridMap(field)
+    for (c <- 0 to 8) if (c != cell.col && grid(cell.row)(c).text == field.text) f(grid(cell.row)(c))
+  }
+
+  //method which maps a function to all fields in the same column of a given field
+  //excluding the field
+  //@param field -> field selected by the pen
+  //@param f -> function applied to a field
+  private def mapToCol(field: TextField)(f: TextField => Unit): Unit = {
+    val cell: Cell = gridMap(field)
+    for (r <- 0 to 8) if (r != cell.row && grid(r)(cell.col).text == field.text) f(grid(r)(cell.col))
+  }
+
+  //method which maps a function to all fields in the same square of a given field
+  //excluding the field
+  //@param field -> field selected by the pen
+  //@param f -> function applied to a field
+  private def mapToSquare(field: TextField)(f: TextField => Unit): Unit = {
+    val cell: Cell = gridMap(field)
+    val lr = (cell.row / 3) * 3; val rr = lr until lr + 3
+    val lc = (cell.col / 3) * 3; val cr = lc until lc + 3
+    for(r <- rr)
+      for(c <- cr){
+        if((r != cell.row || c != cell.col) && grid(r)(c).text == field.text) f(grid(r)(c))
+      }
+  }
+
+  //method which clears a field and its cell
+  private def clearField(field: TextField): Unit = {
+    val cell: Cell = gridMap(field)
+    field.text = ""
+    field.background = Color.WHITE
+    cell.original = false
+    cell.value = '-'
+
+  }
+
+  //method which filters the row and colum of the selected field (marked by pen)
+  def filterRowCol: Unit = {
+    if(!penField.text.isEmpty){
+      mapToRow(penField)(clearField)
+      mapToCol(penField)(clearField)
+    }//if filed pointed by the pen is empty, do nothing
+  }
+
+  //method which filters the square of the selected field (marked by pen)
+  def filterSquare: Unit = {
+    if(!penField.text.isEmpty){
+      mapToSquare(penField)(clearField)
+    }//if filed pointed by the pen is empty, do nothing
+  }
+
 
 }
 
