@@ -9,6 +9,7 @@ import swing._
 import javax.swing._
 import javax.swing.border.Border
 
+import scala.swing.Dialog.Message
 import scala.swing.event.{Key, KeyPressed, KeyTyped, MouseClicked}
 import scala.swing.event.Key.Value
 /*
@@ -58,12 +59,12 @@ class SudokuGrid extends GridPanel(1,1) {
       field.preferredSize = SudokuGrid.fieldSize
       field.horizontalAlignment = Alignment.Center
 
-      //TODO: add key listener for backspace (removal of char)
+
       field.listenTo(field.keys)
       field.listenTo(field.mouse.clicks)
       field.reactions += {
         case e: MouseClicked => penField.requestFocus;e.consume//TODO: Check bcs it sometimes doesn't work
-        case KeyPressed(_,Key.BackSpace,_,_) if (editMode) => clearDigit(field)
+        case KeyPressed(_,Key.BackSpace,_,_) if (editMode) => writeDigit('-', field)
         case e: KeyTyped if (!e.char.isDigit) => e.consume //only digits are allowed, so consume is called
         case e: KeyTyped if (e.char.isDigit) => writeDigit(e.char,field); e.consume//e.consume because of double digits
         case KeyPressed(_,key,_,_) =>
@@ -89,6 +90,7 @@ class SudokuGrid extends GridPanel(1,1) {
       squarePanels(x)(y) = panel
       //add to gridpanel
       gridPanel.contents += panel
+
     }
 
   //adding fields to corresponding squares
@@ -111,8 +113,6 @@ class SudokuGrid extends GridPanel(1,1) {
   //set pen text field
   penField = grid(0)(0)
   penField.background = Color.YELLOW
-
-
 
 
 
@@ -206,10 +206,13 @@ class SudokuGrid extends GridPanel(1,1) {
   private def writeDigit(c: Char, field: TextField): Unit = {
     val cell = gridMap(field)
     if(cell.original == true){
-      Dialog.showMessage(null, "Nedozvoljeno mijenjanje originalnog polja!", title = "Nedozvoljen unos")
+      Dialog.showMessage(null, message = "Nedozvoljeno mijenjanje originalnog polja!", title = "Nedozvoljen unos",messageType = Message.Error)
     }else{
       cell.value = c
-      field.text = c.toString
+      c match {
+        case '-' => field.text = ""
+        case _ => field.text = c.toString
+      }
     }
   }
 
@@ -345,11 +348,10 @@ class SudokuGrid extends GridPanel(1,1) {
       return true
   }
 
-  //TODO: Use this method to write to file
-  /**
-  * method which outputs the sudoku board into a file
-  * @param file -> fajl u koji se vrsi upis
-  */
+
+
+  //method which outputs the sudoku board into a file
+  //@param file -> fajl u koji se vrsi upis
   def outputToFile(file: String): Unit = {
     //adding output directory path to file
     val fileFullPath = SudokuGrid.outputDir + file
@@ -429,6 +431,34 @@ class SudokuGrid extends GridPanel(1,1) {
     if(!penField.text.isEmpty){
       mapToSquare(penField)(clearField)
     }//if filed pointed by the pen is empty, do nothing
+  }
+
+
+
+  //method which applies a 'change' to all valid fields
+  //change means every number X is replaced with 10 - X
+  def changeTable: Unit = {
+    for(row <- grid)
+      for(field <- row if (!field.text.isEmpty)){
+        field.text = (10 - field.text.toInt).toString
+      }
+  }
+
+  //method which transposes the grid
+  def transposeTable: Unit = {
+    //get current elements as Int
+    val currMatrix: Array[Array[Int]] = grid.map(row => row.map (field => if(field.text.isEmpty) 0 else field.text.toInt))
+    //transpose the matrix
+    val transposedMatrix: Array[Array[Int]] = currMatrix.transpose
+
+    //
+    for(row <- 0 until SudokuGrid.boardDimension)
+      for(col <- 0 until SudokuGrid.boardDimension){
+        transposedMatrix(row)(col) match {
+          case 0 => writeDigit('-',grid(row)(col))
+          case x if (x >= 1 && x <= 9) => writeDigit(x.toString.charAt(0),grid(row)(col))
+        }
+      }
   }
 
 

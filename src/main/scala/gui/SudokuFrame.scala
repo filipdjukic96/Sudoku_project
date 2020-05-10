@@ -2,6 +2,7 @@ package gui
 
 import java.io.File
 
+import scala.swing.Dialog.Message
 import scala.swing.event.{KeyTyped, MouseClicked}
 import swing._
 
@@ -129,16 +130,39 @@ object SudokuFrame extends MainFrame {
       }
     })
 
-
     val exportToFile: MenuItem = new MenuItem(new Action("Sacuvaj tabelu u fajl"){
       def apply: Unit = {
         if(sudokuGrid.isSolvable){
-          sudokuGrid.outputToFile("output1.txt")
+          Dialog.showInput(null,message = "Unesi fajl",initial = "") match {
+            case Some(x) if (!x.isEmpty) => sudokuGrid.outputToFile(x)
+            case Some(x) if (x.isEmpty) => Dialog.showMessage(null, "Ime fajla ne moze biti prazno!", title = "Nevalidno ime fajla",messageType = Message.Error)
+            case None => Dialog.showMessage(null, "Ime fajla ne moze biti prazno!", title = "Nevalidno ime fajla",messageType = Message.Error)
+          }
+
         }else{
           Dialog.showMessage(null, "Sudoku tabelu nije moguce sacuvati jer je nerjesiva!", title = "Tabela nerjesiva")
         }
       }
     })
+
+
+    //TODO: Remove after testing, only temporary
+    val applyChange: MenuItem = new MenuItem(new Action("Izvrsi zamjenu"){
+      def apply: Unit = {
+       if(sudokuGrid.editMode){ //only if the grid is in edit mode
+         sudokuGrid.changeTable
+       }
+      }
+    })
+    //TODO: Remove after testing, only temporary
+    val applyTranspose: MenuItem = new MenuItem(new Action("Transponuj"){
+      def apply: Unit = {
+        if(sudokuGrid.editMode){ //only if the grid is in edit mode
+          sudokuGrid.transposeTable
+        }
+      }
+    })
+
 
     //TODO: Implement other advanced menu features (operations, complex operations...)
 
@@ -150,6 +174,8 @@ object SudokuFrame extends MainFrame {
     advancedMenu.contents += filterRowCol
     advancedMenu.contents += filterSquare
     advancedMenu.contents += exportToFile
+    advancedMenu.contents += applyChange
+    advancedMenu.contents += applyTranspose
 
   }
 
