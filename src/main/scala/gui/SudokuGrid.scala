@@ -63,7 +63,7 @@ class SudokuGrid extends GridPanel(1,1) {
       field.listenTo(field.keys)
       field.listenTo(field.mouse.clicks)
       field.reactions += {
-        case e: MouseClicked => penField.requestFocus;e.consume//TODO: Check bcs it sometimes doesn't work
+        case e: MouseClicked => penField.requestFocus; e.consume//TODO: Check bcs it sometimes doesn't work
         case KeyPressed(_,Key.BackSpace,_,_) if (editMode) => writeDigit('-', field)
         case e: KeyTyped if (!e.char.isDigit) => e.consume //only digits are allowed, so consume is called
         case e: KeyTyped if (e.char.isDigit) => writeDigit(e.char,field); e.consume//e.consume because of double digits
@@ -195,6 +195,7 @@ class SudokuGrid extends GridPanel(1,1) {
     }
   }
 
+  //TODO: Delete method bcs it's not used
   //method which erases the value from a field
   private def clearDigit(field: TextField): Unit = {
     val cell: Cell = gridMap(field)
@@ -203,6 +204,8 @@ class SudokuGrid extends GridPanel(1,1) {
   }
 
   //method that writes a digit into the specified text field
+  //@param c -> char to be written ('-' denotes an empty char, which in fact clears the field)
+  //@param field -> text field which will be filled
   private def writeDigit(c: Char, field: TextField): Unit = {
     val cell = gridMap(field)
     if(cell.original == true){
@@ -301,6 +304,15 @@ class SudokuGrid extends GridPanel(1,1) {
     val arrMatrices = rowBlocks(horizontalGroup).map(row => row.grouped(SudokuGrid.squareDimension).toArray)
 
     arrMatrices.map(matrix => matrix(verticalGroup)).flatten.map(textField => if(!textField.text.isEmpty) textField.text.toInt else 0)
+  }
+
+  //method which returns a square within the sudoku table that the coordinates belong to
+  //@param coord -> coordinates of the field whose square is returned
+  private def square(coord: (Int, Int)): Array[Int] = {
+    val row = coord._1
+    val col = coord._2
+    val squareInd = (col / SudokuGrid.squareDimension) + row - (row % SudokuGrid.squareDimension)
+    square(squareInd)
   }
 
 
@@ -459,6 +471,87 @@ class SudokuGrid extends GridPanel(1,1) {
           case x if (x >= 1 && x <= 9) => writeDigit(x.toString.charAt(0),grid(row)(col))
         }
       }
+  }
+
+  //method which checks the validity of a number in a certain place on the sudoku board
+  //@param value -> value to be checked
+  //@param coord -> coordinates where the value would potentially be placed
+  private def checkValidity(value: Int, coord: (Int,Int)): Boolean = {
+    val r = coord._1
+    val c = coord._2
+
+    val currentRow: Array[Int] = row(r)
+    val currentCol: Array[Int] = col(c)
+    val currentSquare: Array[Int] = square(coord)
+
+    (!currentRow.contains(value)) && (!currentCol.contains(value)) && (!currentSquare.contains(value))
+
+  }
+
+
+  //method which returns the coordinates of the next field
+  //if possible, return field to the left
+  //else return the first field in the next row
+  //@param coord -> coordinates (row,col) of the current field
+  private def nextField(coord: (Int,Int)): (Int,Int) = {
+    coord match {
+      case (8,8) => (-1,-1) //end of table
+      case (x, 8) if (x < 8) => (x + 1, 0)
+      case (x, y) if (y < 8) => (x, y + 1)
+    }
+  }
+
+
+  //method which checks if all fields are set
+  //@param coord -> coordinates (row,col) of the current field
+  private def allFieldsSet(coord: (Int,Int)): Boolean = {
+    coord match {
+      case (-1, -1) => true
+      case (x, y) =>
+        if (grid(x)(y).text.isEmpty)
+          false
+        else
+          allFieldsSet(nextField(coord))
+    }
+
+  }
+
+  //method which solves the sudoku board (writes valid values on remaining fields)
+  //@param coord (always (0,0)) -> starting position from which the sudoku is solved
+  private def solve(coord: (Int,Int)): Boolean = {
+    if(allFieldsSet(0,0))
+      true
+    else {
+      val currField: TextField = grid(coord._1)(coord._2)
+
+      if (!currField.text.isEmpty) {
+        solve(nextField(coord))
+      }else{
+        for(value <- 1 to 9){
+          if(checkValidity(value, coord)){
+            writeDigit(value.toString.charAt(0),currField)
+            if(solve(nextField(coord)))
+              return true
+            else
+              writeDigit('-',currField)
+          }
+        }
+        false
+      }
+
+    }
+  }
+
+
+  //method which solves the sudoku and prompts the user to write the solution in a file
+  def solveSudokuAndWriteSolution: Unit = {
+    //first solve the board
+   if(solve(0,0)) println("rijeseno")
+   else println("nerijesno")
+
+    //then prompt the user to name a file the solution would be written in
+
+    //TODO: Modify the method so moves would be written into a file the user choses
   }
 
 

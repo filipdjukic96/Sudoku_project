@@ -31,11 +31,20 @@ object SudokuFrame extends MainFrame {
   //advanced options menu
   val advancedMenu: Menu = new Menu("Napredne opcije")
 
+
+  //button panel
+  val buttonPanel: BoxPanel = new BoxPanel(Orientation.Horizontal)
+
+
+
   //builds the basic menu
   buildBasicMenu
 
   //build the advanced menu
   buildAdvancedMenu
+
+  //build the button panel
+  buildButtonPanel
 
 
   //method which builds the basic menu
@@ -94,6 +103,7 @@ object SudokuFrame extends MainFrame {
 
   }
 
+  //method which builds the advanced menu
   private def buildAdvancedMenu: Unit = {
     bar.contents += advancedMenu
 
@@ -180,10 +190,28 @@ object SudokuFrame extends MainFrame {
   }
 
 
+  //method which builds the button panel
+  private def buildButtonPanel: Unit = {
+    //button to solve sudoku
+    val solveButton: Button = new Button(new Action("Rijesi sudoku"){
+      def apply: Unit = {
+        if(!sudokuGrid.editMode){
+          sudokuGrid.solveSudokuAndWriteSolution
+          //println("solve")
+        }
+      }
+    })
+
+    buttonPanel.contents += solveButton
+  }
+
+
+
 
   //add menus and gridPanel into the framePanel
   framePanel.contents += bar
   framePanel.contents += sudokuGrid
+  framePanel.contents += buttonPanel
 
   //framePanel kao dio main frame-a
   contents = framePanel

@@ -132,38 +132,38 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="992" y="120" key="#xdebugger.evaluate/0.0.1536.824@0.0.1536.824" timestamp="1588887429140" />
-    <state width="1493" height="243" key="GridCell.Tab.0.bottom" timestamp="1589148040014">
+    <state width="1493" height="189" key="GridCell.Tab.0.bottom" timestamp="1589323931418">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="243" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589148040014" />
-    <state width="1493" height="243" key="GridCell.Tab.0.center" timestamp="1589148040014">
+    <state width="1493" height="189" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589323931418" />
+    <state width="1493" height="189" key="GridCell.Tab.0.center" timestamp="1589323931418">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="243" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1589148040014" />
-    <state width="1493" height="243" key="GridCell.Tab.0.left" timestamp="1589148040014">
+    <state width="1493" height="189" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1589323931418" />
+    <state width="1493" height="189" key="GridCell.Tab.0.left" timestamp="1589323931418">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="243" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1589148040014" />
-    <state width="1493" height="243" key="GridCell.Tab.0.right" timestamp="1589148040014">
+    <state width="1493" height="189" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1589323931418" />
+    <state width="1493" height="189" key="GridCell.Tab.0.right" timestamp="1589323931418">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="243" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1589148040014" />
-    <state width="1493" height="252" key="GridCell.Tab.1.bottom" timestamp="1589066859015">
+    <state width="1493" height="189" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1589323931418" />
+    <state width="1493" height="322" key="GridCell.Tab.1.bottom" timestamp="1589322697731">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="252" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589066859015" />
-    <state width="1493" height="252" key="GridCell.Tab.1.center" timestamp="1589066859015">
+    <state width="1493" height="322" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589322697731" />
+    <state width="1493" height="322" key="GridCell.Tab.1.center" timestamp="1589322697731">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="252" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1589066859015" />
-    <state width="1493" height="252" key="GridCell.Tab.1.left" timestamp="1589066859015">
+    <state width="1493" height="322" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1589322697731" />
+    <state width="1493" height="322" key="GridCell.Tab.1.left" timestamp="1589322697731">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="252" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1589066859015" />
-    <state width="1493" height="252" key="GridCell.Tab.1.right" timestamp="1589066859015">
+    <state width="1493" height="322" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1589322697731" />
+    <state width="1493" height="322" key="GridCell.Tab.1.right" timestamp="1589322697731">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="252" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1589066859015" />
+    <state width="1493" height="322" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1589322697731" />
     <state x="424" y="48" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588518433832">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -190,11 +190,16 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/gui/SudokuFrame.scala</url>
-          <line>129</line>
+          <line>139</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="currentCol" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Sudoku_project$Sudoku.ic" NAME="Sudoku Coverage Results" MODIFIED="1588978613333" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
