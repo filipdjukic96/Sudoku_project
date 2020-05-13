@@ -64,7 +64,7 @@ class SudokuGrid extends GridPanel(1,1) {
       field.listenTo(field.mouse.clicks)
       field.reactions += {
         case e: MouseClicked => penField.requestFocus; e.consume//TODO: Check bcs it sometimes doesn't work
-        case KeyPressed(_,Key.BackSpace,_,_) if (editMode) => writeDigit('-', field)
+        case KeyPressed(_,Key.BackSpace,_,_) => writeDigit('-', field)
         case e: KeyTyped if (!e.char.isDigit) => e.consume //only digits are allowed, so consume is called
         case e: KeyTyped if (e.char.isDigit) => writeDigit(e.char,field); e.consume//e.consume because of double digits
         case KeyPressed(_,key,_,_) =>
@@ -195,13 +195,6 @@ class SudokuGrid extends GridPanel(1,1) {
     }
   }
 
-  //TODO: Delete method bcs it's not used
-  //method which erases the value from a field
-  private def clearDigit(field: TextField): Unit = {
-    val cell: Cell = gridMap(field)
-    cell.value = '-'
-    field.text = ""
-  }
 
   //method that writes a digit into the specified text field
   //@param c -> char to be written ('-' denotes an empty char, which in fact clears the field)
@@ -230,6 +223,7 @@ class SudokuGrid extends GridPanel(1,1) {
   }
 
   //method that colors the field's background according to its original flag
+  //@param field -> chosen field
   private def colorFieldPenBackground(field: TextField): Unit = {
     val cell = gridMap(field)
     cell.original match {
@@ -280,6 +274,7 @@ class SudokuGrid extends GridPanel(1,1) {
 
 
   //method which returns a row
+  //row is returned as Array[Int]
   //@param row -> index of the row
   private def row(row: Int): Array[Int] = {
     //take the row, apply map function so every field returns its digit (or 0 if it's empty)
@@ -287,12 +282,14 @@ class SudokuGrid extends GridPanel(1,1) {
   }
 
   //method which returns a column
+  //column is returned as Array[Int]
   //@param col -> index of the column
   private def col(col: Int): Array[Int] = {
     grid.map(arrFlds => if (!arrFlds(col).text.isEmpty) arrFlds(col).text.toInt else 0)
   }
 
   //method which returns a square within the sudoku table
+  //square is returned as Array[Int]
   //@param square -> index of the square (squares are indexed from left to right, starting with 0, ending with 8)
   private def square(square: Int): Array[Int] = {
     //take groups of 3 rows from the matrix
@@ -307,6 +304,7 @@ class SudokuGrid extends GridPanel(1,1) {
   }
 
   //method which returns a square within the sudoku table that the coordinates belong to
+  //square is returned as Array[Int]
   //@param coord -> coordinates of the field whose square is returned
   private def square(coord: (Int, Int)): Array[Int] = {
     val row = coord._1
@@ -316,10 +314,10 @@ class SudokuGrid extends GridPanel(1,1) {
   }
 
 
-  //method which checks whether the row/col/square is valid
+  //method which checks whether the row/col/square is complete
   //according to sudoku rules
   //@ param arr -> array which contains the elements of a row/col/square
-  private def isValid(arr: Array[Int]): Boolean = {
+  private def isComplete(arr: Array[Int]): Boolean = {
     //for each number from 1 to 9 check whether it is in the array
     (1 to 9).forall(x => arr.contains(x))
   }
@@ -327,19 +325,21 @@ class SudokuGrid extends GridPanel(1,1) {
   //method which checks the solution of the sudoku
   private def isSudokuSolved: Boolean = {
     //forall -> takes a function p as parameter, returns true if p(x) is true for every x in the collection
-    //return true if every row, col and square is valid
-    (0 to 8).forall( x => isValid(row(x)) && isValid(col(x)) && isValid(square(x)))
+    //return true if every row, col and square is complete
+    (0 to 8).forall( x => isComplete(row(x)) && isComplete(col(x)) && isComplete(square(x)))
   }
 
 
   //method which checks the current sudoku solution and notifies the user
   def checkSolution: Unit = {
     isSudokuSolved match {
-      case true => Dialog.showMessage(null, "Rjesenje sudoku igre je ispravno, igra je gotova!", title = "Rjesenje ispravno"); clearAll
+      case true => Dialog.showMessage(null, "Rjesenje sudoku igre je ispravno, igra je gotova!", title = "Rjesenje ispravno"); clearAll(0,0)
       case false => Dialog.showMessage(null, "Rjesenje sudoku igre je neispravno!", title = "Rjesenje neispravno")
     }
   }
 
+  //TODO: Make method tail recursive (update: old implementation left for now, delete after project completion)
+  /*
   //method which resets the board
   private def clearAll: Unit = {
     for(arr <- grid)
@@ -352,12 +352,39 @@ class SudokuGrid extends GridPanel(1,1) {
     penField.background = Color.YELLOW
     penField.requestFocus
   }
+  */
+
+  //method which resets the board
+  //@param coord -> coordinates of the field to be reset
+  @scala.annotation.tailrec
+  private def clearAll(coord: (Int,Int)): Unit = {
+      coord match {
+        case (-1,-1) => //end of table
+          penField = grid(0)(0); penField.background = Color.YELLOW; penField.requestFocus
+        case (x, y) =>
+          clearField(grid(x)(y)); clearAll(nextField(coord))
+      }
+  }
 
 
-  //TODO: CHECK HOW THIS METHOD WOULD BE IMPLEMENTED
+  //method which checks whether the row/col/square is valid
+  //according to sudoku rules (has no duplicates)
+  //@ param arr -> array which contains the elements of a row/col/square
+  private def isValid(arr: Array[Int]): Boolean = {
+    //first create an array without 0' (empty fields) (bcs they are duplicates but do not count)
+    val filteredArray: Array[Int] = arr.filter(e => e != 0)
+    //check whether array of distinct values has the same length as this array
+    filteredArray.distinct.length == filteredArray.length
+  }
+
+
+
   //method which checks if the current sudoku board is solvable
-  def isSolvable: Boolean = {
-      return true
+  //i.e. checks whether all rows/columns/squares are currently valid (without duplicates)
+  def isSudokuSolvable: Boolean = {
+    //forall -> takes a function p as parameter, returns true if p(x) is true for every x in the collection
+    //return true if every row, col and square is valid
+    (0 to 8).forall( x => isValid(row(x)) && isValid(col(x)) && isValid(square(x)))
   }
 
 
@@ -421,6 +448,7 @@ class SudokuGrid extends GridPanel(1,1) {
   }
 
   //method which clears a field and its cell
+  //@param field -> field to be cleared
   private def clearField(field: TextField): Unit = {
     val cell: Cell = gridMap(field)
     field.text = ""
@@ -446,7 +474,8 @@ class SudokuGrid extends GridPanel(1,1) {
   }
 
 
-
+  /*
+  //TODO: Make this method tail recursive (update: old implementation left for now, delete after project completion)
   //method which applies a 'change' to all valid fields
   //change means every number X is replaced with 10 - X
   def changeTable: Unit = {
@@ -455,6 +484,47 @@ class SudokuGrid extends GridPanel(1,1) {
         field.text = (10 - field.text.toInt).toString
       }
   }
+*/
+
+  //method which applies a 'change' to a certain field
+  //if applicable (field's text is non-empty)
+  //@param field -> chosen field
+  private def changeField(field: TextField): Unit = {
+    if(!field.text.isEmpty){
+      field.text = (10 - field.text.toInt).toString
+    }
+  }
+
+
+  //method which applies a 'change' to all valid fields
+  //@param coord -> coordinates of the current field to be changed
+  def changeTable(coord: (Int,Int)): Unit = {
+
+    coord match {
+      case (-1,-1) => //nothing
+      case (x,y) =>
+        changeField(grid(x)(y)); changeTable(nextField(coord))
+    }
+
+  }
+
+
+  //method which writes new values to fields according to the transposed grid
+  //@param coord -> coordinates of the field in which the new value will be written
+  //@param transposed -> transposed grid as Array[Array[Int]]
+  @scala.annotation.tailrec
+  private def transposeField(coord: (Int,Int), transposed: Array[Array[Int]]): Unit = {
+    coord match {
+      case (-1,-1) =>
+      case (x, y) =>
+        transposed(x)(y) match {
+          case 0 => writeDigit('-',grid(x)(y))
+          case v if (v >= 1 && v <= 9) => writeDigit(v.toString.charAt(0),grid(x)(y))
+        }
+        transposeField(nextField(coord),transposed)
+    }
+  }
+
 
   //method which transposes the grid
   def transposeTable: Unit = {
@@ -463,7 +533,8 @@ class SudokuGrid extends GridPanel(1,1) {
     //transpose the matrix
     val transposedMatrix: Array[Array[Int]] = currMatrix.transpose
 
-    //
+    //TODO: Consider making this part tail recursive (update: old implementation left for now, delete after project completion)
+    /*
     for(row <- 0 until SudokuGrid.boardDimension)
       for(col <- 0 until SudokuGrid.boardDimension){
         transposedMatrix(row)(col) match {
@@ -471,9 +542,13 @@ class SudokuGrid extends GridPanel(1,1) {
           case x if (x >= 1 && x <= 9) => writeDigit(x.toString.charAt(0),grid(row)(col))
         }
       }
+    */
+
+    transposeField((0,0),transposedMatrix)
   }
 
   //method which checks the validity of a number in a certain place on the sudoku board
+  //i.e. checks whether the number is already present in row/col/square
   //@param value -> value to be checked
   //@param coord -> coordinates where the value would potentially be placed
   private def checkValidity(value: Int, coord: (Int,Int)): Boolean = {
@@ -504,6 +579,7 @@ class SudokuGrid extends GridPanel(1,1) {
 
   //method which checks if all fields are set
   //@param coord -> coordinates (row,col) of the current field
+  @scala.annotation.tailrec
   private def allFieldsSet(coord: (Int,Int)): Boolean = {
     coord match {
       case (-1, -1) => true
@@ -544,6 +620,7 @@ class SudokuGrid extends GridPanel(1,1) {
 
 
   //method which solves the sudoku and prompts the user to write the solution in a file
+  //if the sudoku can be solved
   def solveSudokuAndWriteSolution: Unit = {
     //first solve the board
    if(solve(0,0)) println("rijeseno")

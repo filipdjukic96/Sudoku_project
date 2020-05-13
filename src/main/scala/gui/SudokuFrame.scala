@@ -142,7 +142,8 @@ object SudokuFrame extends MainFrame {
 
     val exportToFile: MenuItem = new MenuItem(new Action("Sacuvaj tabelu u fajl"){
       def apply: Unit = {
-        if(sudokuGrid.isSolvable){
+        if(sudokuGrid.isSudokuSolvable){
+          //TODO: When the user clicks Cancel on input prompt, do nothing (currently displays an error msg)
           Dialog.showInput(null,message = "Unesi fajl",initial = "") match {
             case Some(x) if (!x.isEmpty) => sudokuGrid.outputToFile(x)
             case Some(x) if (x.isEmpty) => Dialog.showMessage(null, "Ime fajla ne moze biti prazno!", title = "Nevalidno ime fajla",messageType = Message.Error)
@@ -160,7 +161,7 @@ object SudokuFrame extends MainFrame {
     val applyChange: MenuItem = new MenuItem(new Action("Izvrsi zamjenu"){
       def apply: Unit = {
        if(sudokuGrid.editMode){ //only if the grid is in edit mode
-         sudokuGrid.changeTable
+         sudokuGrid.changeTable(0,0) //begins on the starting field
        }
       }
     })

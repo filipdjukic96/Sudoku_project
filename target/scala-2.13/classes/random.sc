@@ -1,5 +1,5 @@
-def func(coord: (Int,Int)): Unit = {
-  println("row:"+coord._1+", col:"+coord._2)
-}
+val arr = Array(1,2,3,4,5,6,5,0,0,0,0)
 
-func(0,0)
+val filteredArray = arr.filter(x => x != 0)
+
+filteredArray.distinct.length == filteredArray.length
