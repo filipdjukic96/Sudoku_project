@@ -116,7 +116,6 @@ class SudokuGrid extends GridPanel(1,1) {
 
 
 
-
   //METODE
   ///////////////////////////////////////////////////////
 
@@ -176,7 +175,6 @@ class SudokuGrid extends GridPanel(1,1) {
       row += 1
       col = 0
     }
-
   }
 
   def importMovesFromFile(file: String): Unit = {
@@ -589,9 +587,9 @@ class SudokuGrid extends GridPanel(1,1) {
         else
           allFieldsSet(nextField(coord))
     }
-
   }
 
+  //TODO: Clear unoriginal fields before solving
   //method which solves the sudoku board (writes valid values on remaining fields)
   //@param coord (always (0,0)) -> starting position from which the sudoku is solved
   private def solve(coord: (Int,Int)): Boolean = {
@@ -614,7 +612,6 @@ class SudokuGrid extends GridPanel(1,1) {
         }
         false
       }
-
     }
   }
 

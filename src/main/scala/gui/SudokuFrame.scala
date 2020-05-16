@@ -202,11 +202,8 @@ object SudokuFrame extends MainFrame {
         }
       }
     })
-
     buttonPanel.contents += solveButton
   }
-
-
 
 
   //add menus and gridPanel into the framePanel
@@ -216,8 +213,6 @@ object SudokuFrame extends MainFrame {
 
   //framePanel kao dio main frame-a
   contents = framePanel
-
-
 
   //set visibility to true
   visible = true
