@@ -589,7 +589,7 @@ class SudokuGrid extends GridPanel(1,1) {
     }
   }
 
-  //TODO: Clear unoriginal fields before solving
+
   //method which solves the sudoku board (writes valid values on remaining fields)
   //@param coord (always (0,0)) -> starting position from which the sudoku is solved
   private def solve(coord: (Int,Int)): Boolean = {
@@ -615,18 +615,133 @@ class SudokuGrid extends GridPanel(1,1) {
     }
   }
 
+  //method which clears all unoriginal fields in the sudoku (user written)
+  //@param coord -> coordinates of the current field being cleared
+  @scala.annotation.tailrec
+  private def clearAllUnoriginal(coord: (Int,Int)): Unit = {
+    coord match {
+      case (-1,-1) => //end of table
+
+      case (x, y) =>
+        if (!gridMap(grid(x)(y)).original)
+          clearField  (grid(x)(y))
+        clearAllUnoriginal(nextField(coord))
+    }
+  }
+
+  //method which returns the next field's coordinates (as tuple)
+  //and the char denoting the move from the current field
+  //when writing the solution into a file
+  //@param coord -> coordinates of the current field
+  private def nextFieldSolutionOutput(coord: (Int,Int)):((Int,Int), Char) = {
+    coord match {
+      case (8,8) => ((-1,-1),'n') //end of table
+      case (x, 8) if (x % 2 == 0) => ((x + 1, 8), 'd')
+      case (x, 0) if (x % 2 == 1) => ((x + 1, 0), 'd')
+      case (x, y)  => if (x % 2 == 0) ((x, y + 1), 'r') else ((x, y - 1), 'l')
+    }
+  }
+
+  //method which outputs the moves of the current sudoku's solution into a file
+  //@param pw -> PrintWriter linked to the output file
+  //@param tup -> tuple containing the coordinates of the current field(also a tuple)
+  // and move character (move relative to the previos field's coordinates)
+  @scala.annotation.tailrec
+  private def outputMovesToFile(pw: PrintWriter, tup: ((Int,Int), Char)): Unit = {
+    val coord = tup._1
+    val chr = tup._2
+
+    chr match {
+      case 'n' => //do nothing
+      case x =>
+        pw.write(x)
+        pw.write("\n")
+    }
+
+    coord match {
+      case (-1,-1) => //end
+      case (x,y) => {
+        val cell = gridMap(grid(x)(y))
+        if(!cell.original){
+          pw.write(grid(x)(y).text)
+          pw.write("\n")
+        }
+        outputMovesToFile(pw,nextFieldSolutionOutput(x,y))
+      }
+
+    }
+  }
+
+
+
+
+  //method which outputs the solution of a sudoku table into a file
+  //file contains moves and inputs each in it's own row
+  // moves: d, u, l, r
+  // inputs: [1,9]
+  //@param file -> file to input moves
+  private def outputSolutionToFile(file: String): Unit = {
+
+    //file's full path
+    val fileFullPath = SudokuGrid.inputDirMoves + file
+    // PrintWriter from Java
+    val pw = new PrintWriter(new File(fileFullPath ))
+
+    //output moves to file starting from (0,0)
+    // 'n' char denotes an invalid move as (0,0) is the starting point
+    outputMovesToFile(pw,((0,0),'n'))
+
+    //close file
+    pw.close
+  }
+
 
   //method which solves the sudoku and prompts the user to write the solution in a file
   //if the sudoku can be solved
   def solveSudokuAndWriteSolution: Unit = {
-    //first solve the board
-   if(solve(0,0)) println("rijeseno")
-   else println("nerijesno")
-
-    //then prompt the user to name a file the solution would be written in
-
+    //first clear all unoriginal fields (that the user has written)
+    //TODO: Reconsider this option, maybe the user wants to solve the sudoku along with his/her input?
+    //clearAllUnoriginal(0,0) //TODO: uncomment after nextFieldSolutionOutput is tested
+    //second solve the board
     //TODO: Modify the method so moves would be written into a file the user choses
+   if(solve(0,0)){
+     println("rijeseno")
+     //if solved, prompt the user to name a file where the solution would be written in
+
+     Dialog.showInput(null,message = "Unesi ime fajla za rjesenje",initial = "") match {
+       case Some(x) if (!x.isEmpty) => outputSolutionToFile(x)
+       case Some(x) if (x.isEmpty) => Dialog.showMessage(null, "Ime fajla ne moze biti prazno!", title = "Nevalidno ime fajla",messageType = Message.Error)
+       case None => Dialog.showMessage(null, "Ime fajla ne moze biti prazno!", title = "Nevalidno ime fajla",messageType = Message.Error)
+     }
+
+   } else {
+
+     println("nerijesno")
+     //else notify the user that the sudoku was not solved
+     Dialog.showMessage(null, message = "Sudoku nije mogao biti rijesen!", title = "Nerjesiv sudoku",messageType = Message.Error)
+
+   }
   }
+
+
+
+  //method which reads the sudoku solution from a file
+  //@param file -> file from which the moves will be read
+  def importSolutionFromFile(file: String): Unit = {
+    //first, place the pen on the starting field(0,0)
+    //this is done because sudoku solution's moves are written
+    //starting from (0,0)
+
+    resetFieldBackground(penField)
+    penField = grid(0)(0)
+    colorFieldPenBackground(penField)
+    penField.requestFocus
+
+
+    //call import moves
+    importMovesFromFile(file)
+  }
+
 
 
 }
@@ -673,6 +788,5 @@ object SudokuGrid {
 
   //dimension of table panel
   val preferredBoardSize = new Dimension(600,600)
-
 
 }

@@ -36,6 +36,7 @@ object SudokuFrame extends MainFrame {
   val buttonPanel: BoxPanel = new BoxPanel(Orientation.Horizontal)
 
 
+  //TODO: Consider adding hotkeys to certain menu items
 
   //builds the basic menu
   buildBasicMenu
@@ -67,6 +68,8 @@ object SudokuFrame extends MainFrame {
       }
     })
 
+    //TODO: Commented for now, should be deleted as it's the same as the previous menu item
+    /*
     val chooseTable: MenuItem = new MenuItem(new Action("Izaberi iz ponudjenih tabela"){
       def apply: Unit = {
         val file: File = new File(SudokuGrid.inputDir)
@@ -77,19 +80,39 @@ object SudokuFrame extends MainFrame {
         }
       }
     })
+    */
+
 
     val chooseSequence: MenuItem = new MenuItem(new Action("Izaberi sekvencu poteza iz fajla"){
       def apply: Unit = {
         val file: File = new File(SudokuGrid.inputDirMoves)
         val fileChooser: FileChooser = new FileChooser(file)
         //ako je kliknuto open, a ne cancel
+        //TODO: Forbid the player to import moves if no sudoku table hasn't been loaded
         if (fileChooser.showOpenDialog(null) == FileChooser.Result.Approve){
           sudokuGrid.importMovesFromFile(fileChooser.selectedFile.getName)
         }
       }
     })
 
+
+
+    val chooseSolution: MenuItem = new MenuItem(new Action("Izaberi rjesenje u potezima iz fajla"){
+      def apply: Unit = {
+        val file: File = new File(SudokuGrid.inputDirMoves)
+        val fileChooser: FileChooser = new FileChooser(file)
+        //ako je kliknuto open, a ne cancel
+        //TODO: Forbid the player to import moves if no sudoku table hasn't been loaded
+        if (fileChooser.showOpenDialog(null) == FileChooser.Result.Approve){
+          sudokuGrid.importSolutionFromFile(fileChooser.selectedFile.getName)
+        }
+      }
+    })
+
+
+
     val checkSolution: MenuItem = new MenuItem(new Action("Provjeri rjesenje igre"){
+      //TODO: Forbid the player to check the solution if no sudoku table hasn't been loaded
       def apply: Unit = {
         sudokuGrid.checkSolution
       }
@@ -97,8 +120,9 @@ object SudokuFrame extends MainFrame {
 
     //add submenus
     basicMenu.contents += importFile
-    basicMenu.contents += chooseTable
+    //basicMenu.contents += chooseTable
     basicMenu.contents += chooseSequence
+    basicMenu.contents += chooseSolution
     basicMenu.contents += checkSolution
 
   }
@@ -175,12 +199,8 @@ object SudokuFrame extends MainFrame {
     })
 
 
-    //TODO: Implement other advanced menu features (operations, complex operations...)
-
-
 
     //add submenus
-    //TODO: Add other submenus
     advancedMenu.contents += createSudoku
     advancedMenu.contents += filterRowCol
     advancedMenu.contents += filterSquare
@@ -202,6 +222,8 @@ object SudokuFrame extends MainFrame {
         }
       }
     })
+    //TODO: Forbid the player to click the SOLVE button if no sudoku table hasn't been loaded
+    solveButton.enabled = !sudokuGrid.editMode //disable button if sudoku is in edit mode
     buttonPanel.contents += solveButton
   }
 

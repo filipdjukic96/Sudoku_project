@@ -104,10 +104,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="499" y="167" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1589147530976">
+    <state x="499" y="167" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1589745863297">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="499" y="167" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1589147530976" />
+    <state x="499" y="167" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1589745863297" />
     <state x="532" y="214" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588891089560">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -132,22 +132,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="992" y="120" key="#xdebugger.evaluate/0.0.1536.824@0.0.1536.824" timestamp="1588887429140" />
-    <state width="1493" height="189" key="GridCell.Tab.0.bottom" timestamp="1589407515875">
+    <state width="1493" height="160" key="GridCell.Tab.0.bottom" timestamp="1589750672947">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="189" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589407515875" />
-    <state width="1493" height="189" key="GridCell.Tab.0.center" timestamp="1589407515875">
+    <state width="1493" height="160" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589750672947" />
+    <state width="1493" height="160" key="GridCell.Tab.0.center" timestamp="1589750672947">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="189" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1589407515875" />
-    <state width="1493" height="189" key="GridCell.Tab.0.left" timestamp="1589407515875">
+    <state width="1493" height="160" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1589750672947" />
+    <state width="1493" height="160" key="GridCell.Tab.0.left" timestamp="1589750672947">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="189" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1589407515875" />
-    <state width="1493" height="189" key="GridCell.Tab.0.right" timestamp="1589407515875">
+    <state width="1493" height="160" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1589750672947" />
+    <state width="1493" height="160" key="GridCell.Tab.0.right" timestamp="1589750672947">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="189" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1589407515875" />
+    <state width="1493" height="160" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1589750672947" />
     <state width="1493" height="322" key="GridCell.Tab.1.bottom" timestamp="1589324096389">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -180,6 +180,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="209" y="95" key="new project wizard/0.0.1536.824@0.0.1536.824" timestamp="1588793386770" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1589749960406">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1589749960406" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1589404688414">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -190,7 +194,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/gui/SudokuFrame.scala</url>
-          <line>139</line>
+          <line>163</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
