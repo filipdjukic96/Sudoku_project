@@ -270,6 +270,16 @@ class SudokuGrid extends GridPanel(1,1) {
       }
   }
 
+  //method which sets the pen on a certain position
+  //@param coord -> coordinates of the new pen position
+  private def setPen(coord: (Int, Int)): Unit = {
+    resetFieldBackground(penField)
+    val newField = grid(coord._1)(coord._2)
+    colorFieldPenBackground(newField)
+    newField.requestFocus
+    penField = newField
+  }
+
 
   //method which returns a row
   //row is returned as Array[Int]
@@ -331,7 +341,11 @@ class SudokuGrid extends GridPanel(1,1) {
   //method which checks the current sudoku solution and notifies the user
   def checkSolution: Unit = {
     isSudokuSolved match {
-      case true => Dialog.showMessage(null, "Rjesenje sudoku igre je ispravno, igra je gotova!", title = "Rjesenje ispravno"); clearAll(0,0)
+      case true => {
+        Dialog.showMessage(null, "Rjesenje sudoku igre je ispravno, igra je gotova!", title = "Rjesenje ispravno")
+        SudokuFrame.sudokuLoaded = false
+        clearAll(0,0)
+      }
       case false => Dialog.showMessage(null, "Rjesenje sudoku igre je neispravno!", title = "Rjesenje neispravno")
     }
   }
@@ -464,11 +478,29 @@ class SudokuGrid extends GridPanel(1,1) {
     }//if filed pointed by the pen is empty, do nothing
   }
 
+  //method which filters the row and colum with the pen being moved to a certain position
+  //@param coord -> coordinates of the starting pen position
+  def filterRowColOnField(coord: (Int,Int)): Unit = {
+    //move pen
+    setPen(coord)
+    //filter
+    filterRowCol
+  }
+
   //method which filters the square of the selected field (marked by pen)
   def filterSquare: Unit = {
     if(!penField.text.isEmpty){
       mapToSquare(penField)(clearField)
     }//if filed pointed by the pen is empty, do nothing
+  }
+
+  //method which filters a square with the pen being moved to a certain position
+  //@param coord -> coordinates of the starting pen position
+  def filterSquareOnFiled(coord: (Int,Int)): Unit = {
+    //move pen
+    setPen(coord)
+    //filter
+    filterSquare
   }
 
 
