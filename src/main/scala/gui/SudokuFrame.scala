@@ -63,7 +63,7 @@ object SudokuFrame extends MainFrame {
   buildSequencesMenu
 
   //build the compositions menu
-  //buildCompositionsMenu
+  buildCompositionsMenu
 
 
   //method which builds the basic menu
@@ -273,12 +273,45 @@ object SudokuFrame extends MainFrame {
     println("sequence added") //TODO: remove, debug only
   }
 
-  //method which prompts the user to input a new sequence name
-  private def inputNewSequenceName: String = {
-    Dialog.showInput(null, message = "Unesi ime sekvence",initial = "") match {
-      case Some(x) if (!x.isEmpty) => x
-      case Some(x) if (x.isEmpty) => ""
-      case None =>  ""//user clicked Cancel
+  //method which adds a new composition
+  //@param compRaw -> composition in raw format (operations separated by '-')
+  //@param paramRaw -> composition parameter in raw format
+  private def addComposition(compRaw: String, paramRaw: String, compName: String): Unit = {
+    val compLst: List[String] = compRaw.split('-').toList.map(op => op.trim)
+    println(compRaw) //TODO: remove, debug only
+    val paramTuple: (Int,Int) = if(paramRaw.isEmpty) //if no parameters are required
+                                  (-1,-1)
+                                else
+                                  makeTuple(paramRaw)
+    
+    println(paramTuple) //TODO: remove, debug only
+
+    val composition: Composition = new Composition(sudokuGrid, compName, compLst, paramTuple)
+
+    val newComposition: MenuItem = new MenuItem(new Action(compName){
+      def apply: Unit = {
+        composition.execute
+      }
+    })
+
+    compositionsMenu.contents += newComposition
+    println("composition added") //TODO: remove, debug only
+  }
+
+  //method which prompts the user to input a new sequence/composition name
+  private def inputNewSeqCompName(op: String): String = {
+    if(op == "sequence"){
+      Dialog.showInput(null, message = "Unesi ime sekvence",initial = "") match {
+        case Some(x) if (!x.isEmpty) => x
+        case Some(x) if (x.isEmpty) => ""
+        case None =>  ""//user clicked Cancel
+      }
+    }else{
+      Dialog.showInput(null, message = "Unesi ime kompozicije",initial = "") match {
+        case Some(x) if (!x.isEmpty) => x
+        case Some(x) if (x.isEmpty) => ""
+        case None =>  ""//user clicked Cancel
+      }
     }
   }
 
@@ -286,32 +319,42 @@ object SudokuFrame extends MainFrame {
   //@param seqRaw -> sequence in raw format (operations separated by '-')
   //@param paramsRaw -> sequence parameters in raw format (tuples separated by '-')
   private def inputSequenceName(seqRaw: String, paramsRaw: String): Unit = {
-    //println("dodata sekvenca")
+
     //prompt the user to choose a name for his/her sequence
-    inputNewSequenceName match {
+    inputNewSeqCompName("sequene") match {
       case x if (x.isEmpty) => Dialog.showMessage(null, "Ime sekvence ne moze biti prazno!", title = "Prazno ime sekvence",messageType = Message.Error)
       case x if (!x.isEmpty) => addSequence(seqRaw, paramsRaw, x)
     }
-
-
   }
 
-  //method which checks whether the sequence is valid
-  //@param seq -> sequence of operations
+  //method which adds a new composition
+  //@param seqRaw -> composition in raw format (operations separated by '-')
+  //@param paramsRaw -> composition parameter in raw format (tuples separated by '-')
+  private def inputCompositionName(compRaw: String, paramRaw: String): Unit = {
+
+    //prompt the user to choose a name for his/her sequence
+    inputNewSeqCompName("composition") match {
+      case x if (x.isEmpty) => Dialog.showMessage(null, "Ime kompozicije ne moze biti prazno!", title = "Prazno ime kompozicije",messageType = Message.Error)
+      case x if (!x.isEmpty) => addComposition(compRaw, paramRaw, x)
+    }
+  }
+
+  //method which checks whether the sequence/composition is valid
+  //@param seq -> sequence/composition of operations
   //each operation is separated by '-'
-  private def isSequenceValid(seq: String): Boolean = {
-    val seqLstRaw: List[String] = seq.split('-').toList
-    val seqLst:List[String] = seqLstRaw.map(op => op.trim)
+  private def areOperationsValid(ops: String): Boolean = {
+    val opsLstRaw: List[String] = ops.split('-').toList
+    val opsLst:List[String] = opsLstRaw.map(op => op.trim)
     //TODO: Add other operations if needed(input num, erase num etc...)
     //set of valid operations
     val setValid: Set[String] = Set("transpose","filterSquare","filterRowCol","exchange")
     //check if every list member is contained within the valid set
-    seqLst.forall(op => setValid.contains(op))
+    opsLst.forall(op => setValid.contains(op))
   }
 
 
-  //method which makes a tuple out of two params separated by '-'
-  //@param params -> parameters separated by '-' (ex. 1,2)
+  //method which makes a tuple out of two params separated by ','
+  //@param params -> parameters separated by ',' (ex. 1,2)
   private def makeTuple(params: String): (Int,Int) = {
     val lstParams: List[String] = params.split(',').toList.map(par => par.trim)
     val paramOne: String = lstParams(0)
@@ -346,16 +389,33 @@ object SudokuFrame extends MainFrame {
     paramsLst.forall(tuple => isTupleValid(tuple)) && (numParametrized == paramsLst.length)
   }
 
-
-  //method which checks whether the sequence requires no parameters
-  //@param seqRaw -> sequence in raw format
-  private def noParamsRequired(seqRaw: String): Boolean = {
-    //transform the raw sequence into a list of operations
-    val seqLst: List[String] = seqRaw.split('-').toList.map(op => op.trim)
+  //method which checks whether the param is valid for a certain composition
+  //@param compRaw -> composition in raw format
+  //@param paramRaw -> parameter in raw format
+  private def isParamValid(compRaw: String, paramRaw: String): Boolean = {
+    //transform the raw composition into a list of operations
+    val compLst: List[String] = compRaw.split('-').toList.map(op => op.trim)
     //set of operations which require parameters
     val setParametrizedOps: Set[String] = Set("filterRowCol", "filterSquare")
     //number of parametrized operations in this list
-    val numParametrized = seqLst.filter(op => setParametrizedOps.contains(op)).length
+    val numParametrized = compLst.filter(op => setParametrizedOps.contains(op)).length
+
+
+    //make parameter tuple
+    val paramTuple: (Int,Int) = makeTuple(paramRaw.trim)
+    //if the tuple is valid and the number of parametrized operations is greater than zero
+    isTupleValid(paramTuple) && (numParametrized > 0)
+  }
+
+  //method which checks whether the sequence/composition requires no parameters
+  //@param opsRaw -> sequence in raw format
+  private def noParamsRequired(opsRaw: String): Boolean = {
+    //transform the raw sequence into a list of operations
+    val opsLst: List[String] = opsRaw.split('-').toList.map(op => op.trim)
+    //set of operations which require parameters
+    val setParametrizedOps: Set[String] = Set("filterRowCol", "filterSquare")
+    //number of parametrized operations in this list
+    val numParametrized = opsLst.filter(op => setParametrizedOps.contains(op)).length
     //if the number of parametrized operations is equal to 0, return true, else return false
     numParametrized == 0
   }
@@ -383,12 +443,34 @@ object SudokuFrame extends MainFrame {
     }
   }
 
+  //method which prompts the user to add composition params
+  //@params compRaw -> composition in raw format
+  private def inputCompositionParam(compRaw: String): Unit  = {
+    Dialog.showInput(null, message = "Unesi parametar kompozicije (npr. 1,2)", initial = "") match {
+      case Some(x) if (!x.isEmpty) => {
+        if (isParamValid(compRaw, x))
+          inputCompositionName(compRaw, x)
+        else
+          Dialog.showMessage(null, "Parametar je nevalidan!", title = "Nevalidan parametar",messageType = Message.Error)
+
+      }
+      //TODO: if no operation requires parameters, this is completely valid
+      case Some(x) if (x.isEmpty) => {
+        if(noParamsRequired(compRaw))
+          inputCompositionName(compRaw, x)
+        else
+          Dialog.showMessage(null, "Lista parametara prazna!", title = "Prazan parametar",messageType = Message.Error)
+      }
+      case None => //user clicked Cancel
+    }
+  }
+
 
   //method which prompts the user to add a new sequence, operations separated by '-'
   private def inputSequence: Unit = {
     Dialog.showInput(null, message = "Unesi sekvencu, operacije odvojene sa '-'", initial = "") match {
       case Some(x) if (!x.isEmpty) => {
-        if (isSequenceValid(x))
+        if (areOperationsValid(x))
           inputSequenceParams(x)
         else
           Dialog.showMessage(null, "Sekvenca je nevalidna!", title = "Nevalidna sekvenca",messageType = Message.Error)
@@ -412,6 +494,34 @@ object SudokuFrame extends MainFrame {
     })
 
     sequencesMenu.contents += addSequenceMenuItem
+  }
+
+  //method which prompts the user to add a new composition, operations separated by '-'
+  private def inputComposition: Unit = {
+    Dialog.showInput(null, message = "Unesi kompoziciju, operacije odvojene sa '-'", initial = "") match {
+      case Some(x) if (!x.isEmpty) => {
+        if (areOperationsValid(x))
+          inputCompositionParam(x)
+        else
+          Dialog.showMessage(null, "Kompozicija je nevalidna!", title = "Nevalidna kompozicija",messageType = Message.Error)
+
+      }
+      case Some(x) if (x.isEmpty) => Dialog.showMessage(null, "Kompozicija je prazna!", title = "Prazna kompozicija",messageType = Message.Error)
+      case None => //user clicked Cancel
+    }
+  }
+
+  //method which builds the compositions menu with the first option (add composition)
+  private def buildCompositionsMenu: Unit = {
+    bar.contents += compositionsMenu
+
+    val addCompositionMenuItem: MenuItem = new MenuItem(new Action("Dodaj kompoziciju"){
+      def apply: Unit = {
+        inputComposition
+      }
+    })
+
+    compositionsMenu.contents += addCompositionMenuItem
   }
 
 

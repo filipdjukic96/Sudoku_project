@@ -4,7 +4,7 @@ class Sequence(val sudokuGrid: SudokuGrid, val name: String, val sequence: List[
 
 
   def execute: Unit = {
-    //TODO: Implement the execute method
+
     println("executed "+name+" as seq "+sequence+" with params "+params)
 
     //sequence iterator, iterates over operations
@@ -13,6 +13,7 @@ class Sequence(val sudokuGrid: SudokuGrid, val name: String, val sequence: List[
     val paramIt: Iterator[(Int,Int)] = params.iterator
 
     //iterate over operations, call
+    //TODO: Convert while to tail recursive method call
     while(seqIt.hasNext){
       seqIt.next match {
         case "transpose" => sudokuGrid.transposeTable
