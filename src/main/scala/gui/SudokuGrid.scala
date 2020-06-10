@@ -63,7 +63,7 @@ class SudokuGrid extends GridPanel(1,1) {
       field.listenTo(field.keys)
       field.listenTo(field.mouse.clicks)
       field.reactions += {
-        case e: MouseClicked => penField.requestFocus; e.consume//TODO: Check bcs it sometimes doesn't work
+        case e: MouseClicked => penField.requestFocus; e.consume
         case KeyPressed(_,Key.BackSpace,_,_) => writeDigit('-', field)
         case e: KeyTyped if (!e.char.isDigit) => e.consume //only digits are allowed, so consume is called
         case e: KeyTyped if (e.char.isDigit) => writeDigit(e.char,field); e.consume//e.consume because of double digits
@@ -350,22 +350,6 @@ class SudokuGrid extends GridPanel(1,1) {
     }
   }
 
-  //TODO: Make method tail recursive (update: old implementation left for now, delete after project completion)
-  /*
-  //method which resets the board
-  private def clearAll: Unit = {
-    for(arr <- grid)
-      for(field <- arr){
-        val cell: Cell = gridMap(field)
-
-        clearField(field)
-      }
-    penField = grid(0)(0)
-    penField.background = Color.YELLOW
-    penField.requestFocus
-  }
-  */
-
   //method which resets the board
   //@param coord -> coordinates of the field to be reset
   @scala.annotation.tailrec
@@ -504,18 +488,6 @@ class SudokuGrid extends GridPanel(1,1) {
   }
 
 
-  /*
-  //TODO: Make this method tail recursive (update: old implementation left for now, delete after project completion)
-  //method which applies a 'change' to all valid fields
-  //change means every number X is replaced with 10 - X
-  def changeTable: Unit = {
-    for(row <- grid)
-      for(field <- row if (!field.text.isEmpty)){
-        field.text = (10 - field.text.toInt).toString
-      }
-  }
-*/
-
   //method which applies a 'change' to a certain field
   //if applicable (field's text is non-empty)
   //@param field -> chosen field
@@ -562,17 +534,6 @@ class SudokuGrid extends GridPanel(1,1) {
     val currMatrix: Array[Array[Int]] = grid.map(row => row.map (field => if(field.text.isEmpty) 0 else field.text.toInt))
     //transpose the matrix
     val transposedMatrix: Array[Array[Int]] = currMatrix.transpose
-
-    //TODO: Consider making this part tail recursive (update: old implementation left for now, delete after project completion)
-    /*
-    for(row <- 0 until SudokuGrid.boardDimension)
-      for(col <- 0 until SudokuGrid.boardDimension){
-        transposedMatrix(row)(col) match {
-          case 0 => writeDigit('-',grid(row)(col))
-          case x if (x >= 1 && x <= 9) => writeDigit(x.toString.charAt(0),grid(row)(col))
-        }
-      }
-    */
 
     transposeField((0,0),transposedMatrix)
   }
@@ -733,25 +694,18 @@ class SudokuGrid extends GridPanel(1,1) {
   def solveSudokuAndWriteSolution: Unit = {
     //first clear all unoriginal fields (that the user has written)
     //TODO: Reconsider this option, maybe the user wants to solve the sudoku along with his/her input?
-    //clearAllUnoriginal(0,0) //TODO: uncomment after nextFieldSolutionOutput is tested
+    clearAllUnoriginal(0,0)
     //second solve the board
-    //TODO: Modify the method so moves would be written into a file the user choses
    if(solve(0,0)){
-     println("rijeseno")
      //if solved, prompt the user to name a file where the solution would be written in
-
      Dialog.showInput(null,message = "Unesi ime fajla za rjesenje",initial = "") match {
        case Some(x) if (!x.isEmpty) => outputSolutionToFile(x)
        case Some(x) if (x.isEmpty) => Dialog.showMessage(null, "Ime fajla ne moze biti prazno!", title = "Nevalidno ime fajla",messageType = Message.Error)
        case None => Dialog.showMessage(null, "Ime fajla ne moze biti prazno!", title = "Nevalidno ime fajla",messageType = Message.Error)
      }
-
    } else {
-
-     println("nerijesno")
      //else notify the user that the sudoku was not solved
      Dialog.showMessage(null, message = "Sudoku nije mogao biti rijesen!", title = "Nerjesiv sudoku",messageType = Message.Error)
-
    }
   }
 
