@@ -38,6 +38,7 @@
       <list>
         <option value="Package Object" />
         <option value="Scala Worksheet" />
+        <option value="JUnit4 Test Class" />
       </list>
     </option>
   </component>
@@ -53,29 +54,129 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
+    <property name="last_opened_file_path" value="$APPLICATION_HOME_DIR$/lib/junit-4.12.jar!/" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="gui" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Lenovo\Desktop\Sudoku_project\src\main\scala" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="Sudoku" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="Sudoku" />
+  <component name="RunManager" selected="JUnit.SudokuTest">
+    <configuration name="SudokuGridTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Sudoku_project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gui" />
+      <option name="MAIN_CLASS_NAME" value="gui.SudokuGridTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
+        <option name="BSP.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SudokuGridTest.filterRowCol" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Sudoku_project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gui" />
+      <option name="MAIN_CLASS_NAME" value="gui.SudokuGridTest" />
+      <option name="METHOD_NAME" value="filterRowCol" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BSP.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SudokuGridTest.transposeTable" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Sudoku_project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gui" />
+      <option name="MAIN_CLASS_NAME" value="gui.SudokuGridTest" />
+      <option name="METHOD_NAME" value="transposeTable" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BSP.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SudokuTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Sudoku_project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gui" />
+      <option name="MAIN_CLASS_NAME" value="gui.SudokuTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BSP.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SudokuTest.transposeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Sudoku_project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gui" />
+      <option name="MAIN_CLASS_NAME" value="gui.SudokuTest" />
+      <option name="METHOD_NAME" value="transposeTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BSP.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BSP.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Sudoku" />
+        <item itemvalue="JUnit.SudokuTest" />
+        <item itemvalue="JUnit.SudokuTest.transposeTest" />
+        <item itemvalue="JUnit.SudokuGridTest.transposeTable" />
+        <item itemvalue="JUnit.SudokuGridTest" />
+        <item itemvalue="JUnit.SudokuGridTest.filterRowCol" />
       </list>
     </recent_temporary>
   </component>
@@ -133,26 +234,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="992" y="120" key="#xdebugger.evaluate/0.0.1536.824@0.0.1536.824" timestamp="1588887429140" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1590101390900">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1591906944367">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1590101390900" />
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1591822932441">
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1591906944367" />
+    <state width="1493" height="397" key="GridCell.Tab.0.bottom" timestamp="1591910909578">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591822932441" />
-    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1591822932441">
+    <state width="1493" height="397" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591910909578" />
+    <state width="1493" height="397" key="GridCell.Tab.0.center" timestamp="1591910909578">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1591822932441" />
-    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1591822932441">
+    <state width="1493" height="397" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1591910909578" />
+    <state width="1493" height="397" key="GridCell.Tab.0.left" timestamp="1591910909578">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1591822932441" />
-    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1591822932441">
+    <state width="1493" height="397" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1591910909578" />
+    <state width="1493" height="397" key="GridCell.Tab.0.right" timestamp="1591910909578">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1591822932441" />
+    <state width="1493" height="397" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1591910909578" />
     <state width="1493" height="322" key="GridCell.Tab.1.bottom" timestamp="1589324096389">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -169,6 +270,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="322" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1589324096389" />
+    <state x="249" y="0" key="SettingsEditor" timestamp="1591910683317">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="249" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1591910683317" />
+    <state x="498" y="304" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1591907927157">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="498" y="304" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824@0.0.1536.824" timestamp="1591907927157" />
     <state x="424" y="46" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1591469397429">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -189,6 +298,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="209" y="66" key="new project wizard/0.0.1536.824@0.0.1536.824" timestamp="1590870897788" />
+    <state x="533" y="96" key="org.jetbrains.plugins.scala.testingSupport.ScalaTestCreator$$anon$1$$anon$2" timestamp="1591910738754">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="533" y="96" key="org.jetbrains.plugins.scala.testingSupport.ScalaTestCreator$$anon$1$$anon$2/0.0.1536.824@0.0.1536.824" timestamp="1591910738754" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1589749960406">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
