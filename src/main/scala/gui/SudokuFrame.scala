@@ -77,7 +77,7 @@ object SudokuFrame extends MainFrame {
         if (fileChooser.showOpenDialog(null) == FileChooser.Result.Approve){
           sudokuGrid.editMode = false //no editing allowed
           sudokuLoaded = true
-          sudokuGrid.importFromFile(fileChooser.selectedFile.getName)
+          sudokuGrid.importFromFile(fileChooser.selectedFile.getName, false)
         }
 
       }
@@ -149,7 +149,7 @@ object SudokuFrame extends MainFrame {
         //if cancel was not clicked
         if (fileChooser.showOpenDialog(null) == FileChooser.Result.Approve){
           sudokuGrid.editMode = true //editing allowed
-          sudokuGrid.importFromFile(fileChooser.selectedFile.getName)
+          sudokuGrid.importFromFile(fileChooser.selectedFile.getName, false)
         }
 
       }

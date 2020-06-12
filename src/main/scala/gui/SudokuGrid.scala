@@ -130,7 +130,7 @@ class SudokuGrid extends GridPanel(1,1) {
   }
 
   //method for sudoku input from file
-  def importFromFile(file: String): Unit = {
+  def importFromFile(file: String, testing: Boolean): Unit = {
     //add the file's path to its name
     val fileFullPath = SudokuGrid.inputDir + file
     val arr = parseInputFile(fileFullPath)
@@ -165,7 +165,7 @@ class SudokuGrid extends GridPanel(1,1) {
         //set cell value and original flag
         cell.value = chr match {
           case SudokuGrid.emptyChar | SudokuGrid.penChar => cell.original = false; '-'
-          case x if (x.isDigit) => cell.original = !editMode; chr
+          case x if (x.isDigit) => cell.original = !testing && !editMode; chr
         }
 
         //inc col
@@ -330,8 +330,8 @@ class SudokuGrid extends GridPanel(1,1) {
     (1 to 9).forall(x => arr.contains(x))
   }
 
-  //method which checks the solution of the sudoku
-  private def isSudokuSolved: Boolean = {
+  //method which checks whether the sudoku is solved or not
+  def isSudokuSolved: Boolean = {
     //forall -> takes a function p as parameter, returns true if p(x) is true for every x in the collection
     //return true if every row, col and square is complete
     (0 to 8).forall( x => isComplete(row(x)) && isComplete(col(x)) && isComplete(square(x)))
@@ -585,7 +585,7 @@ class SudokuGrid extends GridPanel(1,1) {
 
   //method which solves the sudoku board (writes valid values on remaining fields)
   //@param coord (always (0,0)) -> starting position from which the sudoku is solved
-  private def solve(coord: (Int,Int)): Boolean = {
+  def solve(coord: (Int,Int)): Boolean = {
     if(allFieldsSet(0,0))
       true
     else {
@@ -711,6 +711,7 @@ class SudokuGrid extends GridPanel(1,1) {
 
 
 
+
   //method which reads the sudoku solution from a file
   //@param file -> file from which the moves will be read
   def importSolutionFromFile(file: String): Unit = {
@@ -728,7 +729,42 @@ class SudokuGrid extends GridPanel(1,1) {
     importMovesFromFile(file)
   }
 
+  //TESTING PURPOSE ONLY
+  //method which gets a field's value as Int
+  //@param coord -> coordinates of the field
+  def getFieldValueInt(coord:(Int,Int)):Int = {
+    val textField: TextField = grid(coord._1)(coord._2)
+    textField.text match{
+      case x if(x.isEmpty) => 0
+      case x if(!x.isEmpty) => x.toInt
+    }
+  }
 
+  //TESTING PURPOSE ONLY
+  //method which gets a field's value as String
+  //@param coord -> coordinates of the field
+  def getFieldValueString(coord:(Int,Int)):String = {
+    val textField: TextField = grid(coord._1)(coord._2)
+    textField.text
+  }
+
+  //TESTING PURPOSE ONLY
+  //method which sets the value of a field
+  //@param coord -> coordinates of the field
+  //@param value -> value of the field
+  def setFieldValue(coord: (Int,Int),value: Int): Unit = {
+    val textField: TextField = grid(coord._1)(coord._2)
+    val cell: Cell = gridMap(textField)
+
+    value match {
+      case 0 =>
+        textField.text = ""
+        cell.value = '-'
+      case x if (x >=1 && x <=9) =>
+        textField.text = value.toString
+        cell.value = value.toString.charAt(0)
+    }
+  }
 
 }
 
@@ -743,6 +779,8 @@ object SudokuGrid {
   val inputDirMoves = "src/main/scala/moves/"
   //output files directory
   val outputDir = "src/main/scala/output/"
+  //sudoku board for testing
+  val testBoardName = "testboard.txt"
 
   //dimension of a single square
   val squareDimension = 3
