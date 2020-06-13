@@ -112,7 +112,7 @@ class SudokuGrid extends GridPanel(1,1) {
 
   //set pen text field
   penField = grid(0)(0)
-  penField.background = Color.YELLOW
+  penField.background = SudokuGrid.penFieldUnoriginalColor
 
 
 
@@ -148,15 +148,15 @@ class SudokuGrid extends GridPanel(1,1) {
 
         //set textfield text, and background/editable if needed
         textField.text = chr match {
-          case SudokuGrid.emptyChar => textField.background = Color.WHITE; ""
-          case SudokuGrid.penChar => penField = textField; textField.background = Color.YELLOW;textField.requestFocus;""
+          case SudokuGrid.emptyChar => textField.background = SudokuGrid.unoriginalFieldColor; ""
+          case SudokuGrid.penChar => penField = textField; textField.background = SudokuGrid.penFieldUnoriginalColor;textField.requestFocus;""
           case x if (x.isDigit)  =>
             if (editMode == false){//if not editable, denote original field with a light gray background
-              textField.background = Color.LIGHT_GRAY
+              textField.background = SudokuGrid.originalFieldColor
               textField.editable = false
               chr.toString
             } else {
-              textField.background = Color.WHITE
+              textField.background = SudokuGrid.unoriginalFieldColor
               chr.toString
             }
 
@@ -215,8 +215,8 @@ class SudokuGrid extends GridPanel(1,1) {
   private def resetFieldBackground(field: TextField): Unit = {
     val cell = gridMap(field)
     cell.original match {
-      case true => field.background = Color.LIGHT_GRAY
-      case false => field.background = Color.WHITE
+      case true => field.background = SudokuGrid.originalFieldColor
+      case false => field.background = SudokuGrid.unoriginalFieldColor
     }
   }
 
@@ -225,8 +225,8 @@ class SudokuGrid extends GridPanel(1,1) {
   private def colorFieldPenBackground(field: TextField): Unit = {
     val cell = gridMap(field)
     cell.original match {
-      case true => field.background = Color.ORANGE
-      case false => field.background = Color.YELLOW
+      case true => field.background = SudokuGrid.penFieldOriginalColor
+      case false => field.background = SudokuGrid.penFieldUnoriginalColor
     }
   }
 
@@ -356,7 +356,7 @@ class SudokuGrid extends GridPanel(1,1) {
   private def clearAll(coord: (Int,Int)): Unit = {
       coord match {
         case (-1,-1) => //end of table
-          penField = grid(0)(0); penField.background = Color.YELLOW; penField.requestFocus
+          penField = grid(0)(0); penField.background = SudokuGrid.penFieldUnoriginalColor; penField.requestFocus
         case (x, y) =>
           clearField(grid(x)(y)); clearAll(nextField(coord))
       }
@@ -448,7 +448,7 @@ class SudokuGrid extends GridPanel(1,1) {
   private def clearField(field: TextField): Unit = {
     val cell: Cell = gridMap(field)
     field.text = ""
-    field.background = Color.WHITE
+    field.background = SudokuGrid.unoriginalFieldColor
     cell.original = false
     cell.value = '-'
 
@@ -808,9 +808,19 @@ object SudokuGrid {
   val fieldSize: Dimension = new Dimension(30,30)
 
   //single square border
-  val squareBorder: Border = BorderFactory.createLineBorder(Color.BLACK,1)
+  val squareBorder: Border = BorderFactory.createLineBorder(Color.BLACK,3)
 
   //dimension of table panel
   val preferredBoardSize = new Dimension(600,600)
+
+
+  //unoriginal field color
+  val unoriginalFieldColor: Color = Color.WHITE
+  //original field color
+  val originalFieldColor: Color = Color.LIGHT_GRAY
+  //pen on unoriginal field color
+  val penFieldUnoriginalColor: Color = Color.CYAN
+  //pen on original field color
+  val penFieldOriginalColor: Color = Color.GRAY
 
 }

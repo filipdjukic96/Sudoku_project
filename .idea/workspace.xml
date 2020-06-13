@@ -79,8 +79,15 @@
       <recent name="C:\Users\Lenovo\Desktop\Sudoku_project\src\main\scala" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.SudokuTest.sudokuSolveTest">
-    <configuration name="SudokuTest.changeTableTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Sudoku">
+    <configuration name="Sudoku" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="Sudoku" />
+      <module name="Sudoku_project" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SudokuTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Sudoku_project" />
       <extension name="coverage">
         <pattern>
@@ -90,14 +97,30 @@
       </extension>
       <option name="PACKAGE_NAME" value="gui" />
       <option name="MAIN_CLASS_NAME" value="gui.SudokuTest" />
-      <option name="METHOD_NAME" value="changeTableTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BSP.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SudokuTest.compositionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Sudoku_project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="gui" />
+      <option name="MAIN_CLASS_NAME" value="gui.SudokuTest" />
+      <option name="METHOD_NAME" value="compositionTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
         <option name="BSP.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SudokuTest.filterRowColTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SudokuTest.sequenceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Sudoku_project" />
       <extension name="coverage">
         <pattern>
@@ -107,41 +130,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="gui" />
       <option name="MAIN_CLASS_NAME" value="gui.SudokuTest" />
-      <option name="METHOD_NAME" value="filterRowColTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-        <option name="BSP.BeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SudokuTest.filterSquareTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Sudoku_project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gui.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gui" />
-      <option name="MAIN_CLASS_NAME" value="gui.SudokuTest" />
-      <option name="METHOD_NAME" value="filterSquareTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-        <option name="BSP.BeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SudokuTest.isSudokuSolvableTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Sudoku_project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="gui.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="gui" />
-      <option name="MAIN_CLASS_NAME" value="gui.SudokuTest" />
-      <option name="METHOD_NAME" value="isSudokuSolvableTest" />
+      <option name="METHOD_NAME" value="sequenceTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -174,11 +163,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Sudoku" />
+        <item itemvalue="JUnit.SudokuTest" />
+        <item itemvalue="JUnit.SudokuTest.compositionTest" />
+        <item itemvalue="JUnit.SudokuTest.sequenceTest" />
         <item itemvalue="JUnit.SudokuTest.sudokuSolveTest" />
-        <item itemvalue="JUnit.SudokuTest.isSudokuSolvableTest" />
-        <item itemvalue="JUnit.SudokuTest.filterSquareTest" />
-        <item itemvalue="JUnit.SudokuTest.filterRowColTest" />
-        <item itemvalue="JUnit.SudokuTest.changeTableTest" />
       </list>
     </recent_temporary>
   </component>
@@ -244,22 +233,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1591906944367" />
-    <state width="1493" height="266" key="GridCell.Tab.0.bottom" timestamp="1592001866487">
+    <state width="1493" height="264" key="GridCell.Tab.0.bottom" timestamp="1592042329686">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="266" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1592001866487" />
-    <state width="1493" height="266" key="GridCell.Tab.0.center" timestamp="1592001866487">
+    <state width="1493" height="264" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1592042329686" />
+    <state width="1493" height="264" key="GridCell.Tab.0.center" timestamp="1592042329686">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="266" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1592001866487" />
-    <state width="1493" height="266" key="GridCell.Tab.0.left" timestamp="1592001866487">
+    <state width="1493" height="264" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1592042329686" />
+    <state width="1493" height="264" key="GridCell.Tab.0.left" timestamp="1592042329686">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="266" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1592001866487" />
-    <state width="1493" height="266" key="GridCell.Tab.0.right" timestamp="1592001866487">
+    <state width="1493" height="264" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1592042329686" />
+    <state width="1493" height="264" key="GridCell.Tab.0.right" timestamp="1592042329686">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="266" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1592001866487" />
+    <state width="1493" height="264" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1592042329686" />
     <state width="1493" height="322" key="GridCell.Tab.1.bottom" timestamp="1589324096389">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

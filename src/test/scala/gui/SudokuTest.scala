@@ -166,6 +166,81 @@ class SudokuTest {
     Assert.assertTrue(sudokuGrid.isSudokuSolved)
   }
 
+  @Test
+  def sequenceTest(): Unit = {
+    sudokuGrid.importFromFile("board1.txt", true)
+    sudokuGrid.setFieldValue((3,0),2)
+    sudokuGrid.setFieldValue((1,4),2)
+
+    val operations: List[String] = List("filterRowCol","transpose","exchange")
+    val params: List[(Int,Int)] = List((1,0))
+    val sequence: Sequence = new Sequence(sudokuGrid,"seq1",operations,params)
+
+    sequence.execute
+
+    //4 - 1   2 9 -   - 7 5         6 8 - 	- 9 3 	4 - 2
+    //2 - -   3 2 -   8 - P         - - 3 	- - 7 	- - 1
+    //- 7 -   - 8 -   - - 6         9 - - 	- 5 - 	- 3 -
+
+    //2 - -   1 - 3   - 6 2         8 7 - 	9 - 4 	- - -
+    //1 - 5   - - -   4 - 3   ->    1 - 2 	- - - 	8 - 4
+    //7 3 -   6 - 8   - - -         - - - 	7 - 2 	- 9 5
+
+    //6 - -   - 2 -   - 3 -         - 2 - 	- 6 - 	- - 9
+    //- - 7   - - 1   - - 4         3 - - 	4 - - 	7 - -
+    //8 9 -   - 6 5   1 - 7         5 - 4 	8 7 - 	- 6 3
+
+
+    Assert.assertEquals(sudokuGrid.getFieldValueString(0,0),"6")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(0,1),"8")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(0,2),"")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(1,0),"")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(1,1),"")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(1,2),"3")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(2,0),"9")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(2,1),"")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(2,2),"")
+
+  }
+
+  @Test
+  def compositionTest(): Unit = {
+    sudokuGrid.importFromFile("board1.txt", true)
+    sudokuGrid.setFieldValue((1,1),2)
+    sudokuGrid.setFieldValue((2,2),2)
+    sudokuGrid.setFieldValue((3,0),2)
+
+    val operations: List[String] = List("filterRowCol","filterSquare","transpose","exchange")
+    val param: (Int,Int) = (1,0)
+    val composition: Composition = new Composition(sudokuGrid,"comp1",operations,param)
+
+    composition.execute
+
+    //4 - 1   2 9 -   - 7 5         6 8 - 	- 9 3 	4 - 2
+    //2 2 -   3 - -   8 - P         - - 3 	- - 7 	- - 1
+    //- 7 2   - 8 -   - - 6         9 - - 	- 5 - 	- 3 -
+
+    //2 - -   1 - 3   - 6 2         8 7 - 	9 - 4 	- - -
+    //1 - 5   - - -   4 - 3   ->    1 - 2 	- - - 	8 - 4
+    //7 3 -   6 - 8   - - -         - - - 	7 - 2 	- 9 5
+
+    //6 - -   - 2 -   - 3 -         - 2 - 	- 6 - 	- - 9
+    //- - 7   - - 1   - - 4         3 - - 	4 - - 	7 - -
+    //8 9 -   - 6 5   1 - 7         5 - 4 	8 7 - 	- 6 3
+
+
+    Assert.assertEquals(sudokuGrid.getFieldValueString(0,0),"6")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(0,1),"8")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(0,2),"")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(1,0),"")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(1,1),"")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(1,2),"3")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(2,0),"9")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(2,1),"")
+    Assert.assertEquals(sudokuGrid.getFieldValueString(2,2),"")
+
+  }
+
 
 
 }
